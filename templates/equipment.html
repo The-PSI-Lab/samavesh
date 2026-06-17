@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Equipment | S.A.M.A.V.E.S.H.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="top-bar">
+    <a href="{{ url_for('landing') }}" class="back-link">← Home</a>
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
+    <span class="top-title">S.A.M.A.V.E.S.H.</span>
+  </nav>
+
+  <main class="container">
+    <h2 class="page-title">Select Equipment</h2>
+    <p class="page-subtitle">Choose the equipment you want to analyze</p>
+
+    <div class="eq-grid">
+      <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="eq-card">
+        <div class="eq-icon">⇌</div>
+        <h3>Heat Exchanger</h3>
+        <p>Shell & Tube, Double Pipe, Air Cooler, Plate</p>
+      </a>
+    </div>
+  </main>
+
+  <footer class="page-footer">
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
+    <small>&copy; 2026 The Ψ Lab, IIT Kharagpur</small>
+  </footer>
+</body>
+</html>
