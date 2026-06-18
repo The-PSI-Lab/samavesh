@@ -7,13 +7,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
 </head>
-<body>
-  <nav class="top-bar">
-    <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="back-link">← New Analysis</a>
-    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
-    <span class="top-title">S.A.M.A.V.E.S.H. — Results</span>
-  </nav>
-
+<body class="report-body">
   <div class="report-header">
     <div class="report-header-inner">
       <div class="report-header-left">
@@ -27,159 +21,120 @@
     </div>
   </div>
 
-  <main class="container">
-    <div class="results-header">
-      <h2>TEA Report</h2>
-      <p class="tag-display">{% if project_id %}Project: <strong>{{ project_id }}</strong> | {% endif %}Tag ID: <strong>{{ tag_id }}</strong> | {{ hx_type }}</p>
-      <p class="tag-display">Shell: {{ shell_material }} | Tube: {{ tube_material }} | Currency: {{ currency }}</p>
+  <div class="report-section">
+    <p class="report-line">Project: {% if project_id %}{{ project_id }}{% else %}-{% endif %} &nbsp;&nbsp;|&nbsp;&nbsp; Tag ID: {{ tag_id }} &nbsp;&nbsp;|&nbsp;&nbsp; Equipment: {{ hx_type }}</p>
+    <p class="report-line">Shell: {{ shell_material }} &nbsp;&nbsp;|&nbsp;&nbsp; Tube: {{ tube_material }} &nbsp;&nbsp;|&nbsp;&nbsp; Currency: {{ currency }}</p>
+  </div>
+
+  <div class="report-section">
+    <h3 class="report-section-title">1. Economic Summary</h3>
+    <table class="report-tbl">
+      <tr><td>Net Present Value (NPV)</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(econ.npv) }}</td></tr>
+      <tr><td>Discount Rate</td><td class="r">{{ "{:.1f}".format(econ.discount_rate*100) }}%</td></tr>
+      <tr><td>Internal Rate of Return (IRR)</td><td class="r">{% if econ.irr %}{{ "{:.1f}".format(econ.irr*100) }}%{% else %}N/A{% endif %}</td></tr>
+      <tr><td>Simple Payback Period</td><td class="r">{% if econ.simple_payback_years %}{% if econ.simple_payback_years < 1 %}{{ "{:.1f}".format(econ.simple_payback_years * 365) }} days{% else %}{{ "{:.2f}".format(econ.simple_payback_years) }} yr{% endif %}{% else %}N/A{% endif %}</td></tr>
+      <tr><td>Discounted Payback Period</td><td class="r">{% if econ.discounted_payback_years %}{% if econ.discounted_payback_years < 1 %}{{ "{:.1f}".format(econ.discounted_payback_years * 365) }} days{% else %}{{ "{:.2f}".format(econ.discounted_payback_years) }} yr{% endif %}{% else %}N/A{% endif %}</td></tr>
+      <tr><td>Plant Life</td><td class="r">{{ plant_life }} years</td></tr>
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h3 class="report-section-title">2. CAPEX Build-up</h3>
+    <table class="report-tbl">
+      <tr><td>Equipment Purchase Cost</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(capex.purchase_cost) }}</td></tr>
+      <tr><td>Bare Module Factor</td><td class="r">{{ "{:.3f}".format(capex.bare_module_factor) }}</td></tr>
+      <tr><td>Bare Module Cost</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(capex.bare_module_cost) }}</td></tr>
+      <tr><td>Contingency ({{ "{:.0f}".format(capex.contingency_fraction*100) }}%)</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(capex.contingency_cost) }}</td></tr>
+      <tr><td>Fixed Capital Investment</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(capex.fci) }}</td></tr>
+      <tr><td>Working Capital ({{ "{:.0f}".format(capex.working_capital_fraction*100) }}%)</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(capex.working_capital) }}</td></tr>
+      <tr style="font-weight:700;border-top:2px solid #000;"><td>Total Capital Investment</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(capex.tci) }}</td></tr>
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h3 class="report-section-title">3. OPEX (Annual)</h3>
+    <table class="report-tbl">
+      <tr><td>Heat Duty</td><td class="r">{{ "{:,.1f}".format(si.heat_duty_kw) }} kW</td></tr>
+      <tr><td>Operating Hours</td><td class="r">{{ "{:,.0f}".format(opex.operating_hours) }} h/yr</td></tr>
+      <tr><td>Annual Energy Recovered</td><td class="r">{{ "{:,.0f}".format(opex.annual_energy_kwh) }} kWh</td></tr>
+      <tr><td>Utility Cost</td><td class="r">{{ symbol }}{{ "{:.4f}".format(opex.utility_cost_per_kwh) }}/kWh</td></tr>
+      <tr><td>Gross Annual Savings</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(opex.annual_savings) }}</td></tr>
+      <tr><td>Maintenance ({{ "{:.0f}".format(opex.maintenance_fraction*100) }}%)</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(opex.maintenance_cost) }}</td></tr>
+      <tr style="font-weight:700;border-top:2px solid #000;"><td>Net Annual Benefit</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(opex.net_annual_benefit) }}</td></tr>
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h3 class="report-section-title">4. Design Inputs</h3>
+    <table class="report-tbl">
+      <tr><td>Heat Duty</td><td class="r">{{ "{:,.3f}".format(si.heat_duty_kw) }} kW</td></tr>
+      <tr><td>Heat Transfer Area</td><td class="r">{{ "{:,.4f}".format(si.area_m2) }} m&sup2;</td></tr>
+      <tr><td>Shell Inner Diameter</td><td class="r">{{ "{:,.4f}".format(si.shell_id_m) }} m</td></tr>
+      <tr><td>Tube Length</td><td class="r">{{ "{:,.4f}".format(si.tube_length_m) }} m</td></tr>
+      <tr><td>Tube Outside Diameter</td><td class="r">{{ "{:,.4f}".format(si.tube_od_m) }} m</td></tr>
+      <tr><td>Number of Tubes</td><td class="r">{{ si.num_tubes }}</td></tr>
+      <tr><td>Design Pressure</td><td class="r">{{ "{:,.0f}".format(si.pressure_pa) }} Pa</td></tr>
+      <tr><td>Design Temperature</td><td class="r">{{ "{:,.2f}".format(si.temp_k) }} K</td></tr>
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h3 class="report-section-title">5. Cash Flow Schedule</h3>
+    <table class="report-tbl" style="width:100%">
+      <tr style="font-weight:600;border-bottom:2px solid #000;"><td>Year</td><td class="r">Investment</td><td class="r">Benefit</td><td class="r">Net Flow</td><td class="r">Cumulative</td></tr>
+      {% for r in rows %}
+      <tr><td>{{ r.year }}</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(r.investment) }}</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(r.benefit) }}</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(r.net_cash_flow) }}</td><td class="r">{{ symbol }}{{ "{:,.0f}".format(r.cumulative) }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h3 class="report-section-title">6. Visualisation</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><div id="chart-capex"></div></div>
+      <div><div id="chart-opex"></div></div>
+      <div style="grid-column:1/-1;"><div id="chart-cashflow"></div></div>
+      <div style="grid-column:1/-1;"><div id="chart-cumulative"></div></div>
+      <div><div id="chart-npv-sens"></div></div>
+      <div><div id="chart-discount-sens"></div></div>
     </div>
+  </div>
 
-    <!-- Summary Table -->
-    <section class="block">
-      <h3 class="block-title">Economic Summary</h3>
-      <div class="table-wrap">
-        <table class="data-table report-table">
-          <thead>
-            <tr><th style="width:60%">Metric</th><th style="width:40%">Value</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Net Present Value (NPV)</td><td class="{{ 'pos' if econ.npv >= 0 else 'neg' }} fw-bold">{{ symbol }}{{ "{:,.0f}".format(econ.npv) }}</td></tr>
-            <tr><td>Discount Rate</td><td>{{ "{:.1f}".format(econ.discount_rate*100) }}%</td></tr>
-            <tr><td>Internal Rate of Return (IRR)</td><td>{% if econ.irr %}{{ "{:.1f}".format(econ.irr*100) }}%{% else %}N/A{% endif %}</td></tr>
-            <tr><td>Simple Payback Period</td><td>{% if econ.simple_payback_years %}{% if econ.simple_payback_years < 1 %}{{ "{:.1f}".format(econ.simple_payback_years * 365) }} days{% else %}{{ "{:.2f}".format(econ.simple_payback_years) }} yr{% endif %}{% else %}N/A{% endif %}</td></tr>
-            <tr><td>Discounted Payback Period</td><td>{% if econ.discounted_payback_years %}{% if econ.discounted_payback_years < 1 %}{{ "{:.1f}".format(econ.discounted_payback_years * 365) }} days{% else %}{{ "{:.2f}".format(econ.discounted_payback_years) }} yr{% endif %}{% else %}N/A{% endif %}</td></tr>
-            <tr><td>Plant Life</td><td>{{ plant_life }} years</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- CAPEX Table -->
-    <section class="block">
-      <h3 class="block-title">CAPEX Build-up</h3>
-      <div class="table-wrap">
-        <table class="data-table report-table">
-          <thead>
-            <tr><th style="width:60%">Item</th><th style="width:40%">Amount ({{ symbol }})</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Equipment Purchase Cost</td><td>{{ "{:,.0f}".format(capex.purchase_cost) }}</td></tr>
-            <tr><td>Bare Module Factor (F<sub>BM</sub>)</td><td>{{ "{:.3f}".format(capex.bare_module_factor) }}</td></tr>
-            <tr><td>Bare Module Cost (C<sub>BM</sub>)</td><td>{{ "{:,.0f}".format(capex.bare_module_cost) }}</td></tr>
-            <tr><td>Contingency ({{ "{:.0f}".format(capex.contingency_fraction*100) }}% of CBM)</td><td>{{ "{:,.0f}".format(capex.contingency_cost) }}</td></tr>
-            <tr><td>Fixed Capital Investment (FCI)</td><td>{{ "{:,.0f}".format(capex.fci) }}</td></tr>
-            <tr><td>Working Capital ({{ "{:.0f}".format(capex.working_capital_fraction*100) }}% of FCI)</td><td>{{ "{:,.0f}".format(capex.working_capital) }}</td></tr>
-            <tr class="total"><td>Total Capital Investment (TCI)</td><td class="fw-bold">{{ symbol }}{{ "{:,.0f}".format(capex.tci) }}</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- OPEX Table -->
-    <section class="block">
-      <h3 class="block-title">OPEX (Annual)</h3>
-      <div class="table-wrap">
-        <table class="data-table report-table">
-          <thead>
-            <tr><th style="width:60%">Item</th><th style="width:40%">Value</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Heat Duty</td><td>{{ "{:,.1f}".format(si.heat_duty_kw) }} kW</td></tr>
-            <tr><td>Operating Hours</td><td>{{ "{:,.0f}".format(opex.operating_hours) }} h/yr</td></tr>
-            <tr><td>Annual Energy Recovered</td><td>{{ "{:,.0f}".format(opex.annual_energy_kwh) }} kWh</td></tr>
-            <tr><td>Utility Cost</td><td>{{ symbol }}{{ "{:.4f}".format(opex.utility_cost_per_kwh) }}/kWh</td></tr>
-            <tr><td>Gross Annual Savings</td><td>{{ symbol }}{{ "{:,.0f}".format(opex.annual_savings) }}</td></tr>
-            <tr><td>Maintenance ({{ "{:.0f}".format(opex.maintenance_fraction*100) }}% of TCI)</td><td>{{ symbol }}{{ "{:,.0f}".format(opex.maintenance_cost) }}</td></tr>
-            <tr class="total"><td>Net Annual Benefit</td><td class="{{ 'pos' if opex.net_annual_benefit >= 0 else 'neg' }} fw-bold">{{ symbol }}{{ "{:,.0f}".format(opex.net_annual_benefit) }}</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Charts -->
-    <section class="block">
-      <h3 class="block-title">Visualisation</h3>
-      <div class="chart-grid">
-        <div class="chart-cell"><div id="chart-capex"></div></div>
-        <div class="chart-cell"><div id="chart-opex"></div></div>
-        <div class="chart-cell wide"><div id="chart-cashflow"></div></div>
-        <div class="chart-cell wide"><div id="chart-cumulative"></div></div>
-        <div class="chart-cell"><div id="chart-npv-sens"></div></div>
-        <div class="chart-cell"><div id="chart-discount-sens"></div></div>
-      </div>
-    </section>
-
-    <!-- Cash Flow Table -->
-    <section class="block">
-      <h3 class="block-title">Cash Flow Schedule</h3>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead>
-            <tr><th>Year</th><th>Investment</th><th>Benefit</th><th>Net Cash Flow</th><th>Cumulative</th></tr>
-          </thead>
-          <tbody>
-            {% for r in rows %}
-            <tr>
-              <td>{{ r.year }}</td>
-              <td>{{ symbol }}{{ "{:,.0f}".format(r.investment) }}</td>
-              <td>{{ symbol }}{{ "{:,.0f}".format(r.benefit) }}</td>
-              <td class="{{ 'neg' if r.net_cash_flow < 0 else 'pos' }}">{{ symbol }}{{ "{:,.0f}".format(r.net_cash_flow) }}</td>
-              <td class="{{ 'neg' if r.cumulative < 0 else 'pos' }}">{{ symbol }}{{ "{:,.0f}".format(r.cumulative) }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- SI Inputs -->
-    <section class="block">
-      <h3 class="block-title">Design Inputs (SI Units)</h3>
-      <div class="table-wrap">
-        <table class="data-table report-table">
-          <tbody>
-            <tr><td style="width:60%">Heat Duty</td><td>{{ "{:,.3f}".format(si.heat_duty_kw) }} kW</td></tr>
-            <tr><td>Heat Transfer Area</td><td>{{ "{:,.4f}".format(si.area_m2) }} m²</td></tr>
-            <tr><td>Shell Inner Diameter</td><td>{{ "{:,.4f}".format(si.shell_id_m) }} m</td></tr>
-            <tr><td>Tube Length</td><td>{{ "{:,.4f}".format(si.tube_length_m) }} m</td></tr>
-            <tr><td>Tube Outside Diameter</td><td>{{ "{:,.4f}".format(si.tube_od_m) }} m</td></tr>
-            <tr><td>Number of Tubes</td><td>{{ si.num_tubes }}</td></tr>
-            <tr><td>Design Pressure</td><td>{{ "{:,.0f}".format(si.pressure_pa) }} Pa</td></tr>
-            <tr><td>Design Temperature</td><td>{{ "{:,.2f}".format(si.temp_k) }} K</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <div class="action-row">
-      <button onclick="window.print()" class="btn-pdf">📄 Download / Print Report</button>
-      <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="btn-pdf">Add Another Equipment</a>
-      <a href="{{ url_for('net_capex') }}" class="btn-ghost">Proceed to Net CapEx →</a>
-    </div>
-  </main>
-
-  <footer class="page-footer">
-    <div class="footer-inner">
-      <div class="footer-center">
-        <strong>Developed by</strong><br>
-        {% for name in team %}
-          <span>{{ name }}</span>{% if not loop.last %}, {% endif %}
-        {% endfor %}
-      </div>
-      <div class="footer-right">
-        <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
-      </div>
-    </div>
-  </footer>
+  <div class="action-row">
+    <button onclick="window.print()" class="btn-pdf">📄 Download / Print Report</button>
+    <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="btn-pdf">Add Another Equipment</a>
+    <a href="{{ url_for('net_capex') }}" class="btn-ghost">Proceed to Net CapEx →</a>
+  </div>
 
   <script id="tea-data" type="application/json">{{ chart_data | tojson }}</script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
   <style>
+    body.report-body { font-family: "Inter", system-ui, sans-serif; background: #fff; color: #000; padding: 0; margin: 0; line-height: 1.6; }
+    .report-header { background: #0f1b2d; padding: 20px 0; }
+    .report-header-inner { max-width: 960px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 24px; }
+    .report-header-left { flex-shrink: 0; }
+    .report-logo { height: 52px; width: auto; border-radius: 6px; }
+    .report-header-right { flex: 1; text-align: right; }
+    .report-title { font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin: 0; }
+    .report-subtitle { font-size: 0.7rem; color: #7fb0f5; letter-spacing: 0.1em; text-transform: uppercase; margin: 2px 0; }
+    .report-meta { font-size: 0.75rem; color: #9fb2c9; margin: 0; }
+    .report-section { max-width: 960px; margin: 0 auto; padding: 8px 24px; }
+    .report-section-title { font-size: 1rem; font-weight: 700; margin: 16px 0 6px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+    .report-line { font-size: 0.85rem; color: #555; margin: 2px 0; }
+    .report-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .report-tbl td { padding: 4px 8px; border-bottom: 1px solid #e0e0e0; }
+    .report-tbl td.r { text-align: right; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .action-row { max-width: 960px; margin: 24px auto; padding: 0 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-pdf { padding: 10px 24px; background: #1f6feb; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem; text-decoration: none; display: inline-block; }
+    .btn-ghost { padding: 10px 24px; background: #fff; border: 1px solid #ccc; border-radius: 6px; color: #1f6feb; font-weight: 600; font-size: 0.9rem; text-decoration: none; display: inline-block; }
     @media print {
-      .top-bar, .page-footer, .action-row, .btn-pdf { display: none !important; }
-      body { background: #fff; }
-      .chart-cell { break-inside: avoid; }
+      .action-row, .btn-pdf, .btn-ghost { display: none !important; }
+      body.report-body { background: #fff; font-size: 11pt; }
+      .report-header { background: #0f1b2d !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .report-section-title { font-size: 12pt; }
+      .report-tbl { font-size: 10pt; }
+      .report-tbl td { padding: 3px 6px; }
     }
   </style>
 </body>
