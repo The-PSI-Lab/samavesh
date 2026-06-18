@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Specifications | S.A.M.A.V.E.S.H.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="top-bar">
+    <a href="{{ url_for('landing') }}" class="back-link">← Home</a>
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
+    <span class="top-title">Plant Specifications</span>
+  </nav>
+
+  <main class="container">
+    <h2 class="page-title">Plant Specifications</h2>
+    <p class="page-subtitle">Enter the basic project details before proceeding to equipment analysis</p>
+
+    <form action="{{ url_for('plant_specs') }}" method="POST" class="analysis-form">
+      <div class="panel">
+        <div class="panel-head"><span class="panel-tag">P</span><h3>Project Details</h3></div>
+        <div class="grid-3">
+          <div class="field">
+            <label>Project ID</label>
+            <input type="text" name="project_id" placeholder="e.g. PROJ-001" required>
+          </div>
+          <div class="field">
+            <label>User Name</label>
+            <input type="text" name="user_name" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label>Plant Capacity</label>
+            <input type="text" name="plant_capacity" placeholder="e.g. 100 TPD">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="field">
+            <label>CEPCI</label>
+            <input type="number" step="any" name="cepei" placeholder="e.g. 800.0" value="800.0">
+          </div>
+          <div class="field">
+            <label>Project Description (max 200 words)</label>
+            <textarea name="project_desc" rows="4" placeholder="Describe your project in up to 200 words..." onkeydown="return limitWords(this, 200)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-run">Save & Proceed →</button>
+
+      {% if saved %}
+      <div class="action-row" style="margin-top: 12px;">
+        <a href="{{ url_for('material_balance') }}" class="btn-pdf">Proceed to Material Balance →</a>
+      </div>
+      {% endif %}
+    </form>
+  </main>
+
+  <footer class="page-footer">
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
+    <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
+  </footer>
+
+  <script>
+    function limitWords(el, max) {
+      var words = el.value.split(/\s+/).filter(Boolean);
+      if (words.length > max) {
+        el.value = words.slice(0, max).join(" ");
+      }
+    }
+  </script>
+</body>
+</html>

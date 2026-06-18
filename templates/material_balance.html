@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Material Balance | S.A.M.A.V.E.S.H.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="top-bar">
+    <a href="{{ url_for('plant_specs') }}" class="back-link">← Back</a>
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
+    <span class="top-title">Overall Material Balance</span>
+  </nav>
+
+  <main class="container">
+    <h2 class="page-title">Overall Material Balance</h2>
+    <p class="page-subtitle">Define feedstocks and product profiles for your project</p>
+
+    <form action="{{ url_for('material_balance') }}" method="POST" class="analysis-form" id="mb-form">
+      <div class="panel">
+        <div class="panel-head"><span class="panel-tag">F</span><h3>Feedstocks</h3></div>
+        <div id="feed-list">
+          <div class="grid-3 feed-row">
+            <div class="field"><label>Chemical Name</label><input type="text" name="feed_name[]" placeholder="e.g. Methanol"></div>
+            <div class="field"><label>Cost (USD/kg)</label><input type="number" step="any" name="feed_cost[]" placeholder="0.00"></div>
+            <div class="field" style="justify-content: flex-end;"><button type="button" class="btn-ghost-sm" onclick="this.parentElement.parentElement.remove()">Remove</button></div>
+          </div>
+        </div>
+        <button type="button" class="btn-ghost" onclick="addFeedRow()" style="margin-top: 12px;">+ Add Feedstock</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><span class="panel-tag">P</span><h3>Product Profile</h3></div>
+        <div id="prod-list">
+          <div class="grid-3 prod-row">
+            <div class="field"><label>Chemical Name</label><input type="text" name="prod_name[]" placeholder="e.g. Formalin"></div>
+            <div class="field"><label>Cost (USD/kg)</label><input type="number" step="any" name="prod_cost[]" placeholder="0.00"></div>
+            <div class="field" style="justify-content: flex-end;"><button type="button" class="btn-ghost-sm" onclick="this.parentElement.parentElement.remove()">Remove</button></div>
+          </div>
+        </div>
+        <button type="button" class="btn-ghost" onclick="addProdRow()" style="margin-top: 12px;">+ Add Product</button>
+      </div>
+
+      {% if saved %}
+      <div class="action-row" style="margin-top: 0; margin-bottom: 12px;">
+        <a href="{{ url_for('equipment') }}" class="btn-pdf">Start Estimating Equipment Costs →</a>
+      </div>
+      {% endif %}
+      <button type="submit" class="btn-run">Save Material Balance</button>
+    </form>
+  </main>
+
+  <footer class="page-footer">
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
+    <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
+  </footer>
+
+  <script>
+    function addFeedRow() {
+      var div = document.createElement("div");
+      div.className = "grid-3 feed-row";
+      div.innerHTML = `
+        <div class="field"><label>Chemical Name</label><input type="text" name="feed_name[]" placeholder="e.g. Methanol"></div>
+        <div class="field"><label>Cost (USD/kg)</label><input type="number" step="any" name="feed_cost[]" placeholder="0.00"></div>
+        <div class="field" style="justify-content: flex-end;"><button type="button" class="btn-ghost-sm" onclick="this.parentElement.parentElement.remove()">Remove</button></div>`;
+      document.getElementById("feed-list").appendChild(div);
+    }
+
+    function addProdRow() {
+      var div = document.createElement("div");
+      div.className = "grid-3 prod-row";
+      div.innerHTML = `
+        <div class="field"><label>Chemical Name</label><input type="text" name="prod_name[]" placeholder="e.g. Formalin"></div>
+        <div class="field"><label>Cost (USD/kg)</label><input type="number" step="any" name="prod_cost[]" placeholder="0.00"></div>
+        <div class="field" style="justify-content: flex-end;"><button type="button" class="btn-ghost-sm" onclick="this.parentElement.parentElement.remove()">Remove</button></div>`;
+      document.getElementById("prod-list").appendChild(div);
+    }
+  </script>
+</body>
+</html>

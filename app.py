@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 from tea_engine import (
     units,
     compute_capex,
@@ -10,6 +10,7 @@ from tea_engine import (
 )
 
 app = Flask(__name__)
+app.secret_key = "samavesh-psi-lab-2026"
 
 TEAM = [
     "Srikar Nemani",
@@ -49,9 +50,43 @@ def landing():
     return render_template("index.html", team=TEAM)
 
 
+@app.route("/team")
+def team():
+    return render_template("team.html", team=TEAM)
+
+
+@app.route("/plant-specs", methods=["GET", "POST"])
+def plant_specs():
+    if request.method == "POST":
+        session["project_id"] = request.form.get("project_id", "")
+        session["user_name"] = request.form.get("user_name", "")
+        session["project_desc"] = request.form.get("project_desc", "")
+        session["plant_capacity"] = request.form.get("plant_capacity", "")
+        session["cepei"] = request.form.get("cepei", "")
+        return render_template("plant_specs.html", saved=True)
+    return render_template("plant_specs.html", saved=False)
+
+
+@app.route("/material-balance", methods=["GET", "POST"])
+def material_balance():
+    if request.method == "POST":
+        feed_names = request.form.getlist("feed_name[]")
+        feed_costs = request.form.getlist("feed_cost[]")
+        prod_names = request.form.getlist("prod_name[]")
+        prod_costs = request.form.getlist("prod_cost[]")
+        session["feedstocks"] = list(zip(feed_names, feed_costs))
+        session["products"] = list(zip(prod_names, prod_costs))
+        return render_template("material_balance.html", saved=True,
+                               feedstocks=session.get("feedstocks", []),
+                               products=session.get("products", []))
+    return render_template("material_balance.html", saved=False,
+                           feedstocks=[], products=[])
+
+
 @app.route("/equipment")
 def equipment():
-    return render_template("equipment.html")
+    return render_template("equipment.html",
+                           project_id=session.get("project_id", ""))
 
 
 @app.route("/analysis/<eq_type>")
@@ -59,9 +94,17 @@ def analysis(eq_type):
     return render_template("analysis.html", eq_type=eq_type)
 
 
+@app.route("/calculate-purchase", methods=["POST"])
+def calculate_purchase():
+    bm = _num("bare_module_factor", 3.291)
+    pc = _num("purchase_cost_manual", 50000)
+    result = pc * bm
+    return {"purchase_cost": pc, "bare_module_cost": result,
+            "message": f"Purchase: ${pc:,.0f} \u00d7 {bm:.3f} = ${result:,.0f}"}
+
+
 @app.route("/calculate", methods=["POST"])
 def calculate():
-    # --- technical inputs ---------------------------------------------------
     heat_duty_w = units.to_watts(_num("heat_duty"), request.form.get("heat_duty_unit", "kW"))
     heat_duty_kw = units.watts_to_kw(heat_duty_w)
     area_m2 = units.to_m2(_num("area"), request.form.get("area_unit", "m2"))
@@ -72,7 +115,6 @@ def calculate():
     temp_k = units.to_kelvin(_num("design_temp"), request.form.get("temp_unit", "degC"))
     num_tubes = _int("num_tubes")
 
-    # --- economic inputs ----------------------------------------------------
     purchase_cost = _num("purchase_cost", 50000)
     bare_module_factor = _num("bare_module_factor", 3.291)
     contingency_fraction = _pct("contingency_pct", 18.0)
@@ -88,7 +130,6 @@ def calculate():
     currency = request.form.get("currency", "USD")
     symbol = CURRENCY_SYMBOLS.get(currency, "$")
 
-    # --- engine -------------------------------------------------------------
     capex = compute_capex(
         purchase_cost, bare_module_factor,
         contingency_fraction, working_capital_fraction,
@@ -103,7 +144,6 @@ def calculate():
     flows = net_cash_flows(rows)
     econ = compute_economics(flows, capex.tci, opex.net_annual_benefit, discount_rate)
 
-    # --- sensitivity sweeps -------------------------------------------------
     sensitivity = _build_sensitivity(
         capex=capex, opex=opex, plant_life=plant_life,
         discount_rate=discount_rate, purchase_cost=purchase_cost,
@@ -115,7 +155,6 @@ def calculate():
         utility_cost_per_kwh=utility_cost_per_kwh,
     )
 
-    # --- chart data payload -------------------------------------------------
     chart_data = {
         "currency": symbol,
         "capex_breakdown": {
@@ -145,6 +184,7 @@ def calculate():
         "results.html",
         symbol=symbol, currency=currency,
         team=TEAM,
+        project_id=session.get("project_id", ""),
         tag_id=request.form.get("tag_id", "N/A"),
         hx_type=request.form.get("hx_type", "Shell and Tube"),
         shell_material=request.form.get("shell_material", "Carbon Steel"),
@@ -158,6 +198,11 @@ def calculate():
         capex=capex, opex=opex, econ=econ, rows=rows,
         plant_life=plant_life, chart_data=chart_data,
     )
+
+
+@app.route("/net-capex")
+def net_capex():
+    return render_template("net_capex.html")
 
 
 def _build_sensitivity(capex, opex, plant_life, discount_rate,

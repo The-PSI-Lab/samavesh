@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet the Team | S.A.M.A.V.E.S.H.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="top-bar">
+    <a href="{{ url_for('landing') }}" class="back-link">← Home</a>
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
+    <span class="top-title">Meet the Team</span>
+  </nav>
+
+  <main class="container">
+    <h2 class="page-title">The PSI Lab Team</h2>
+    <p class="page-subtitle">Undergraduate Interns who built S.A.M.A.V.E.S.H.</p>
+
+    <div class="team-grid">
+      {% for name in team %}
+      <div class="team-card">
+        <div class="team-avatar">{{ name[0] }}</div>
+        <h3>{{ name }}</h3>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="team-supervisor">
+      <p><strong>Supervisor:</strong> Prof. Sudip Das</p>
+      <p><strong>Lab:</strong> The PSI Lab, IIT Kharagpur</p>
+    </div>
+  </main>
+
+  <footer class="page-footer">
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
+    <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
+  </footer>
+</body>
+</html>

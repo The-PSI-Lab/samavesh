@@ -16,7 +16,10 @@
         <p class="hero-desc">
           Techno-Economic & Environmental Analysis Platform for Chemical Process Equipment
         </p>
-        <a href="{{ url_for('equipment') }}" class="btn-start">Start Analysis →</a>
+        <div class="hero-actions">
+          <a href="{{ url_for('plant_specs') }}" class="btn-start">Start Analysis →</a>
+          <a href="{{ url_for('team') }}" class="btn-secondary">Meet the Team</a>
+        </div>
       </div>
     </div>
 
@@ -25,15 +28,8 @@
         <div class="footer-left">
           <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
         </div>
-        <div class="footer-center">
-          <strong>Developed by</strong><br>
-          {% for name in team %}
-            <span>{{ name }}</span>{% if not loop.last %}, {% endif %}
-          {% endfor %}
-          <br><small>Undergraduate Interns, The Ψ Lab</small>
-        </div>
         <div class="footer-right">
-          <small>&copy; 2026 The Ψ Lab, IIT Kharagpur. All Rights Reserved.</small>
+          <small>&copy; 2026 The PSI Lab, IIT Kharagpur. All Rights Reserved.</small>
         </div>
       </div>
     </footer>

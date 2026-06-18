@@ -17,11 +17,10 @@
   <main class="container">
     <div class="results-header">
       <h2>Analysis Results</h2>
-      <p class="tag-display">Tag ID: <strong>{{ tag_id }}</strong> | {{ hx_type }}</p>
+      <p class="tag-display">{% if project_id %}Project: <strong>{{ project_id }}</strong> | {% endif %}Tag ID: <strong>{{ tag_id }}</strong> | {{ hx_type }}</p>
       <p class="tag-display">Shell: {{ shell_material }} | Tube: {{ tube_material }} | {{ currency }}</p>
     </div>
 
-    <!-- Headline Metrics -->
     <div class="headline-grid">
       <div class="metric-card">
         <span class="metric-label">Net Present Value</span>
@@ -49,7 +48,6 @@
     <p class="warn">Net annual benefit is zero or negative. Raise utility cost, operating hours, or heat duty, or lower capital inputs.</p>
     {% endif %}
 
-    <!-- CAPEX -->
     <section class="block">
       <h3 class="block-title">CAPEX Build-up</h3>
       <div class="cards">
@@ -62,7 +60,6 @@
       </div>
     </section>
 
-    <!-- OPEX -->
     <section class="block">
       <h3 class="block-title">OPEX (Annual)</h3>
       <div class="cards">
@@ -73,7 +70,6 @@
       </div>
     </section>
 
-    <!-- Charts -->
     <section class="block">
       <h3 class="block-title">Visualisation</h3>
       <div class="chart-grid">
@@ -86,7 +82,6 @@
       </div>
     </section>
 
-    <!-- Cash Flow Table -->
     <section class="block">
       <h3 class="block-title">Cash Flow Table</h3>
       <div class="table-wrap">
@@ -109,7 +104,6 @@
       </div>
     </section>
 
-    <!-- SI Inputs -->
     <section class="block">
       <h3 class="block-title">Inputs (SI)</h3>
       <div class="table-wrap">
@@ -128,9 +122,10 @@
       </div>
     </section>
 
-    <div class="action-row">
-      <button onclick="window.print()" class="btn-pdf">📄 Download / Print PDF</button>
-      <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="btn-ghost">← New Analysis</a>
+    <div class="action-row" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button onclick="window.print()" class="btn-pdf">📄 Download / Print Report</button>
+      <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="btn-pdf">Add Another Equipment</a>
+      <a href="{{ url_for('net_capex') }}" class="btn-ghost">Proceed to Net CapEx →</a>
     </div>
   </main>
 
@@ -146,7 +141,7 @@
         {% endfor %}
       </div>
       <div class="footer-right">
-        <small>&copy; 2026 The Ψ Lab, IIT Kharagpur</small>
+        <small>&copy; 2026 The PSI Lab, IIT Kharagpur. All Rights Reserved.</small>
       </div>
     </div>
   </footer>

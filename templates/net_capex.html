@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Net CapEx | S.A.M.A.V.E.S.H.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="top-bar">
+    <a href="{{ url_for('equipment') }}" class="back-link">← Equipment</a>
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
+    <span class="top-title">Net CapEx Calculation</span>
+  </nav>
+
+  <main class="container">
+    <h2 class="page-title">Net CapEx Calculation</h2>
+    <p class="page-subtitle">Summary of all equipment capital costs for this project</p>
+
+    <div class="panel">
+      <p style="color: var(--muted); text-align: center; padding: 40px 0;">
+        Equipment costs will accumulate here as you add equipment from the analysis page.
+        <br><br>
+        <a href="{{ url_for('equipment') }}" class="btn-pdf">← Add Equipment</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="page-footer">
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
+    <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
+  </footer>
+</body>
+</html>

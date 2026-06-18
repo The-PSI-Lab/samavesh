@@ -16,14 +16,6 @@
   <main class="container">
     <form action="{{ url_for('calculate') }}" method="POST" class="analysis-form">
       <input type="hidden" name="equipment" value="heat_exchanger">
-      <input type="hidden" name="cost_method" value="auto">
-
-      <div class="panel">
-        <div class="panel-head"><span class="panel-tag">ID</span><h3>Tag ID</h3></div>
-        <div class="field">
-          <input type="text" name="tag_id" placeholder="e.g. E-1001" required>
-        </div>
-      </div>
 
       <div class="panel">
         <div class="panel-head"><span class="panel-tag">A</span><h3>Process Specs</h3></div>
@@ -127,12 +119,14 @@
             </select>
           </div>
           <div class="field">
-            <label>Bare Module Factor</label>
+            <label>Bare Module Factor (F<sub>BM</sub>)</label>
             <input type="number" step="any" name="bare_module_factor" value="3.291">
           </div>
-          <div class="field">
+          <div class="field" id="purchase-cost-field">
             <label>Purchase Cost ($)</label>
-            <input type="number" step="any" name="purchase_cost" placeholder="Auto if empty">
+            <input type="number" step="any" name="purchase_cost" value="50000" id="purchase-cost-input">
+            <button type="button" class="btn-ghost-sm" onclick="calcPurchaseCost()" style="margin-top:4px;">See Result</button>
+            <span id="purchase-result" style="font-size:0.82rem;color:var(--green);font-weight:600;"></span>
           </div>
         </div>
       </div>
@@ -191,13 +185,28 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-run">Run Analysis →</button>
+      <button type="submit" class="btn-run">See Results →</button>
     </form>
+
+    <div class="action-row" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <a href="{{ url_for('equipment') }}" class="btn-pdf">Add Another Equipment</a>
+      <a href="{{ url_for('net_capex') }}" class="btn-ghost">Proceed to Net CapEx →</a>
+    </div>
   </main>
 
   <footer class="page-footer">
     <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
-    <small>&copy; 2026 The Ψ Lab, IIT Kharagpur</small>
+    <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
   </footer>
+
+  <script>
+    function calcPurchaseCost() {
+      var pc = parseFloat(document.getElementById("purchase-cost-input").value) || 0;
+      var bm = parseFloat(document.querySelector("[name=bare_module_factor]").value) || 3.291;
+      var result = pc * bm;
+      document.getElementById("purchase-result").textContent =
+        "$" + pc.toLocaleString() + " × " + bm.toFixed(3) + " = $" + Math.round(result).toLocaleString();
+    }
+  </script>
 </body>
 </html>
