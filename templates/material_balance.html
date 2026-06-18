@@ -42,12 +42,7 @@
         <button type="button" class="btn-ghost" onclick="addProdRow()" style="margin-top: 12px;">+ Add Product</button>
       </div>
 
-      {% if saved %}
-      <div class="action-row" style="margin-top: 0; margin-bottom: 12px;">
-        <a href="{{ url_for('equipment') }}" class="btn-pdf">Start Estimating Equipment Costs →</a>
-      </div>
-      {% endif %}
-      <button type="submit" class="btn-run">Save Material Balance</button>
+      <button type="submit" class="btn-run">Save & Start Estimating Equipment Costs →</button>
     </form>
   </main>
 

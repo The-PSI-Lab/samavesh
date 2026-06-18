@@ -63,7 +63,8 @@ def plant_specs():
         session["project_desc"] = request.form.get("project_desc", "")
         session["plant_capacity"] = request.form.get("plant_capacity", "")
         session["cepei"] = request.form.get("cepei", "")
-        return render_template("plant_specs.html", saved=True)
+        from flask import redirect, url_for
+        return redirect(url_for("material_balance"))
     return render_template("plant_specs.html", saved=False)
 
 
@@ -76,10 +77,9 @@ def material_balance():
         prod_costs = request.form.getlist("prod_cost[]")
         session["feedstocks"] = list(zip(feed_names, feed_costs))
         session["products"] = list(zip(prod_names, prod_costs))
-        return render_template("material_balance.html", saved=True,
-                               feedstocks=session.get("feedstocks", []),
-                               products=session.get("products", []))
-    return render_template("material_balance.html", saved=False,
+        from flask import redirect, url_for
+        return redirect(url_for("equipment"))
+    return render_template("material_balance.html",
                            feedstocks=[], products=[])
 
 
