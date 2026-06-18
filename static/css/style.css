@@ -270,6 +270,27 @@ textarea:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
   .summary-card, .table-section { break-inside: avoid; border: 1px solid #ccc; }
 }
 
+/* ---- Report Header (results page) ---- */
+.report-header {
+  background: #0f1b2d; padding: 20px 0;
+}
+.report-header-inner {
+  max-width: 960px; margin: 0 auto; padding: 0 20px;
+  display: flex; align-items: center; gap: 24px;
+}
+.report-header-left { flex-shrink: 0; }
+.report-logo { height: 56px; width: auto; border-radius: 6px; }
+.report-header-right { flex: 1; text-align: right; }
+.report-title {
+  font-size: 1.5rem; font-weight: 800; color: #fff;
+  letter-spacing: -0.02em; margin: 0;
+}
+.report-subtitle {
+  font-size: 0.72rem; color: #7fb0f5;
+  letter-spacing: 0.1em; text-transform: uppercase; margin: 2px 0;
+}
+.report-meta { font-size: 0.75rem; color: #9fb2c9; margin: 0; }
+
 @media (max-width: 600px) {
   .field-row { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; text-align: center; }
