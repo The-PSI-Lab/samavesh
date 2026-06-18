@@ -208,6 +208,8 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-
 .data-table td { padding: 10px 14px; border-bottom: 1px solid #e3e8ef; }
 .data-table .total td { font-weight: 700; background: #f1f6ff; }
 .data-table .section-divider { background: #eef1f5; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em; }
+.report-table td:last-child { text-align: right; font-family: var(--mono); font-weight: 600; }
+.fw-bold { font-weight: 700; }
 .btn-ghost {
   display: inline-block; padding: 12px 24px; background: #fff;
   border: 1px solid #d8dee6; border-radius: 8px; text-decoration: none;

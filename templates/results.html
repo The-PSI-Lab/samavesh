@@ -29,60 +29,74 @@
 
   <main class="container">
     <div class="results-header">
-      <h2>Analysis Results</h2>
+      <h2>TEA Report</h2>
       <p class="tag-display">{% if project_id %}Project: <strong>{{ project_id }}</strong> | {% endif %}Tag ID: <strong>{{ tag_id }}</strong> | {{ hx_type }}</p>
-      <p class="tag-display">Shell: {{ shell_material }} | Tube: {{ tube_material }} | {{ currency }}</p>
+      <p class="tag-display">Shell: {{ shell_material }} | Tube: {{ tube_material }} | Currency: {{ currency }}</p>
     </div>
 
-    <div class="headline-grid">
-      <div class="metric-card">
-        <span class="metric-label">Net Present Value</span>
-        <span class="metric-value {{ 'pos' if econ.npv >= 0 else 'neg' }}">{{ symbol }}{{ "{:,.0f}".format(econ.npv) }}</span>
-        <span class="metric-sub">at {{ "{:.1f}".format(econ.discount_rate*100) }}% discount</span>
+    <!-- Summary Table -->
+    <section class="block">
+      <h3 class="block-title">Economic Summary</h3>
+      <div class="table-wrap">
+        <table class="data-table report-table">
+          <thead>
+            <tr><th style="width:60%">Metric</th><th style="width:40%">Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Net Present Value (NPV)</td><td class="{{ 'pos' if econ.npv >= 0 else 'neg' }} fw-bold">{{ symbol }}{{ "{:,.0f}".format(econ.npv) }}</td></tr>
+            <tr><td>Discount Rate</td><td>{{ "{:.1f}".format(econ.discount_rate*100) }}%</td></tr>
+            <tr><td>Internal Rate of Return (IRR)</td><td>{% if econ.irr %}{{ "{:.1f}".format(econ.irr*100) }}%{% else %}N/A{% endif %}</td></tr>
+            <tr><td>Simple Payback Period</td><td>{% if econ.simple_payback_years %}{% if econ.simple_payback_years < 1 %}{{ "{:.1f}".format(econ.simple_payback_years * 365) }} days{% else %}{{ "{:.2f}".format(econ.simple_payback_years) }} yr{% endif %}{% else %}N/A{% endif %}</td></tr>
+            <tr><td>Discounted Payback Period</td><td>{% if econ.discounted_payback_years %}{% if econ.discounted_payback_years < 1 %}{{ "{:.1f}".format(econ.discounted_payback_years * 365) }} days{% else %}{{ "{:.2f}".format(econ.discounted_payback_years) }} yr{% endif %}{% else %}N/A{% endif %}</td></tr>
+            <tr><td>Plant Life</td><td>{{ plant_life }} years</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="metric-card">
-        <span class="metric-label">IRR</span>
-        <span class="metric-value">{% if econ.irr %}{{ "{:.1f}".format(econ.irr*100) }}%{% else %}N/A{% endif %}</span>
-        <span class="metric-sub">NPV = 0 crossing</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-label">Simple Payback</span>
-        <span class="metric-value">{% if econ.simple_payback_years %}{% if econ.simple_payback_years < 1 %}{{ "{:.1f}".format(econ.simple_payback_years * 365) }} days{% else %}{{ "{:.2f}".format(econ.simple_payback_years) }} yr{% endif %}{% else %}N/A{% endif %}</span>
-        <span class="metric-sub">TCI / net benefit</span>
-      </div>
-      <div class="metric-card">
-        <span class="metric-label">Discounted Payback</span>
-        <span class="metric-value">{% if econ.discounted_payback_years %}{% if econ.discounted_payback_years < 1 %}{{ "{:.1f}".format(econ.discounted_payback_years * 365) }} days{% else %}{{ "{:.2f}".format(econ.discounted_payback_years) }} yr{% endif %}{% else %}N/A{% endif %}</span>
-        <span class="metric-sub">discounted cumulative</span>
-      </div>
-    </div>
+    </section>
 
-    {% if econ.simple_payback_years is none %}
-    <p class="warn">Net annual benefit is zero or negative. Raise utility cost, operating hours, or heat duty, or lower capital inputs.</p>
-    {% endif %}
-
+    <!-- CAPEX Table -->
     <section class="block">
       <h3 class="block-title">CAPEX Build-up</h3>
-      <div class="cards">
-        <div class="card"><span>Purchase Cost</span><b>{{ symbol }}{{ "{:,.0f}".format(capex.purchase_cost) }}</b></div>
-        <div class="card"><span>Bare Module Cost (×{{ "{:.3f}".format(capex.bare_module_factor) }})</span><b>{{ symbol }}{{ "{:,.0f}".format(capex.bare_module_cost) }}</b></div>
-        <div class="card"><span>Contingency</span><b>{{ symbol }}{{ "{:,.0f}".format(capex.contingency_cost) }}</b></div>
-        <div class="card"><span>Fixed Capital (FCI)</span><b>{{ symbol }}{{ "{:,.0f}".format(capex.fci) }}</b></div>
-        <div class="card"><span>Working Capital</span><b>{{ symbol }}{{ "{:,.0f}".format(capex.working_capital) }}</b></div>
-        <div class="card card-strong"><span>Total Capital (TCI)</span><b>{{ symbol }}{{ "{:,.0f}".format(capex.tci) }}</b></div>
+      <div class="table-wrap">
+        <table class="data-table report-table">
+          <thead>
+            <tr><th style="width:60%">Item</th><th style="width:40%">Amount ({{ symbol }})</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Equipment Purchase Cost</td><td>{{ "{:,.0f}".format(capex.purchase_cost) }}</td></tr>
+            <tr><td>Bare Module Factor (F<sub>BM</sub>)</td><td>{{ "{:.3f}".format(capex.bare_module_factor) }}</td></tr>
+            <tr><td>Bare Module Cost (C<sub>BM</sub>)</td><td>{{ "{:,.0f}".format(capex.bare_module_cost) }}</td></tr>
+            <tr><td>Contingency ({{ "{:.0f}".format(capex.contingency_fraction*100) }}% of CBM)</td><td>{{ "{:,.0f}".format(capex.contingency_cost) }}</td></tr>
+            <tr><td>Fixed Capital Investment (FCI)</td><td>{{ "{:,.0f}".format(capex.fci) }}</td></tr>
+            <tr><td>Working Capital ({{ "{:.0f}".format(capex.working_capital_fraction*100) }}% of FCI)</td><td>{{ "{:,.0f}".format(capex.working_capital) }}</td></tr>
+            <tr class="total"><td>Total Capital Investment (TCI)</td><td class="fw-bold">{{ symbol }}{{ "{:,.0f}".format(capex.tci) }}</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
+    <!-- OPEX Table -->
     <section class="block">
       <h3 class="block-title">OPEX (Annual)</h3>
-      <div class="cards">
-        <div class="card"><span>Energy Recovered</span><b>{{ "{:,.0f}".format(opex.annual_energy_kwh) }} kWh</b></div>
-        <div class="card"><span>Gross Savings</span><b>{{ symbol }}{{ "{:,.0f}".format(opex.annual_savings) }}</b></div>
-        <div class="card"><span>Maintenance</span><b>{{ symbol }}{{ "{:,.0f}".format(opex.maintenance_cost) }}</b></div>
-        <div class="card card-strong"><span>Net Annual Benefit</span><b class="{{ 'pos' if opex.net_annual_benefit >= 0 else 'neg' }}">{{ symbol }}{{ "{:,.0f}".format(opex.net_annual_benefit) }}</b></div>
+      <div class="table-wrap">
+        <table class="data-table report-table">
+          <thead>
+            <tr><th style="width:60%">Item</th><th style="width:40%">Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Heat Duty</td><td>{{ "{:,.1f}".format(si.heat_duty_kw) }} kW</td></tr>
+            <tr><td>Operating Hours</td><td>{{ "{:,.0f}".format(opex.operating_hours) }} h/yr</td></tr>
+            <tr><td>Annual Energy Recovered</td><td>{{ "{:,.0f}".format(opex.annual_energy_kwh) }} kWh</td></tr>
+            <tr><td>Utility Cost</td><td>{{ symbol }}{{ "{:.4f}".format(opex.utility_cost_per_kwh) }}/kWh</td></tr>
+            <tr><td>Gross Annual Savings</td><td>{{ symbol }}{{ "{:,.0f}".format(opex.annual_savings) }}</td></tr>
+            <tr><td>Maintenance ({{ "{:.0f}".format(opex.maintenance_fraction*100) }}% of TCI)</td><td>{{ symbol }}{{ "{:,.0f}".format(opex.maintenance_cost) }}</td></tr>
+            <tr class="total"><td>Net Annual Benefit</td><td class="{{ 'pos' if opex.net_annual_benefit >= 0 else 'neg' }} fw-bold">{{ symbol }}{{ "{:,.0f}".format(opex.net_annual_benefit) }}</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
+    <!-- Charts -->
     <section class="block">
       <h3 class="block-title">Visualisation</h3>
       <div class="chart-grid">
@@ -95,8 +109,9 @@
       </div>
     </section>
 
+    <!-- Cash Flow Table -->
     <section class="block">
-      <h3 class="block-title">Cash Flow Table</h3>
+      <h3 class="block-title">Cash Flow Schedule</h3>
       <div class="table-wrap">
         <table class="data-table">
           <thead>
@@ -106,7 +121,7 @@
             {% for r in rows %}
             <tr>
               <td>{{ r.year }}</td>
-              <td class="{{ 'neg' if r.investment < 0 else '' }}">{{ symbol }}{{ "{:,.0f}".format(r.investment) }}</td>
+              <td>{{ symbol }}{{ "{:,.0f}".format(r.investment) }}</td>
               <td>{{ symbol }}{{ "{:,.0f}".format(r.benefit) }}</td>
               <td class="{{ 'neg' if r.net_cash_flow < 0 else 'pos' }}">{{ symbol }}{{ "{:,.0f}".format(r.net_cash_flow) }}</td>
               <td class="{{ 'neg' if r.cumulative < 0 else 'pos' }}">{{ symbol }}{{ "{:,.0f}".format(r.cumulative) }}</td>
@@ -117,16 +132,17 @@
       </div>
     </section>
 
+    <!-- SI Inputs -->
     <section class="block">
-      <h3 class="block-title">Inputs (SI)</h3>
+      <h3 class="block-title">Design Inputs (SI Units)</h3>
       <div class="table-wrap">
-        <table class="data-table">
+        <table class="data-table report-table">
           <tbody>
-            <tr><td>Heat Duty</td><td>{{ "{:,.3f}".format(si.heat_duty_kw) }} kW</td></tr>
+            <tr><td style="width:60%">Heat Duty</td><td>{{ "{:,.3f}".format(si.heat_duty_kw) }} kW</td></tr>
             <tr><td>Heat Transfer Area</td><td>{{ "{:,.4f}".format(si.area_m2) }} m²</td></tr>
-            <tr><td>Shell ID</td><td>{{ "{:,.4f}".format(si.shell_id_m) }} m</td></tr>
+            <tr><td>Shell Inner Diameter</td><td>{{ "{:,.4f}".format(si.shell_id_m) }} m</td></tr>
             <tr><td>Tube Length</td><td>{{ "{:,.4f}".format(si.tube_length_m) }} m</td></tr>
-            <tr><td>Tube OD</td><td>{{ "{:,.4f}".format(si.tube_od_m) }} m</td></tr>
+            <tr><td>Tube Outside Diameter</td><td>{{ "{:,.4f}".format(si.tube_od_m) }} m</td></tr>
             <tr><td>Number of Tubes</td><td>{{ si.num_tubes }}</td></tr>
             <tr><td>Design Pressure</td><td>{{ "{:,.0f}".format(si.pressure_pa) }} Pa</td></tr>
             <tr><td>Design Temperature</td><td>{{ "{:,.2f}".format(si.temp_k) }} K</td></tr>
@@ -135,7 +151,7 @@
       </div>
     </section>
 
-    <div class="action-row" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+    <div class="action-row">
       <button onclick="window.print()" class="btn-pdf">📄 Download / Print Report</button>
       <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="btn-pdf">Add Another Equipment</a>
       <a href="{{ url_for('net_capex') }}" class="btn-ghost">Proceed to Net CapEx →</a>
@@ -144,9 +160,6 @@
 
   <footer class="page-footer">
     <div class="footer-inner">
-      <div class="footer-left">
-        <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
-      </div>
       <div class="footer-center">
         <strong>Developed by</strong><br>
         {% for name in team %}
@@ -154,7 +167,7 @@
         {% endfor %}
       </div>
       <div class="footer-right">
-        <small>&copy; 2026 The PSI Lab, IIT Kharagpur. All Rights Reserved.</small>
+        <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
       </div>
     </div>
   </footer>
@@ -166,8 +179,7 @@
     @media print {
       .top-bar, .page-footer, .action-row, .btn-pdf { display: none !important; }
       body { background: #fff; }
-      .headline-grid, .cards, .chart-cell { break-inside: avoid; }
-      .table-wrap { border: 1px solid #ccc; }
+      .chart-cell { break-inside: avoid; }
     }
   </style>
 </body>
