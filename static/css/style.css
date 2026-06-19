@@ -247,6 +247,7 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-
 .team-card h3 { font-size: 0.95rem; margin: 0; }
 .team-card p { color: var(--muted); font-size: 0.84rem; margin-top: 4px; }
 .team-section--lead { display: flex; flex-direction: column; align-items: center; }
+.team-lead-grid { display: grid; grid-template-columns: repeat(2, minmax(200px, 1fr)); gap: 48px; }
 .team-card--lead { min-width: 200px; }
 .team-lab { text-align: center; color: var(--muted); font-size: 0.9rem; margin: 8px 0 40px; }
 
@@ -333,6 +334,7 @@ textarea:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
   .chart-cell { min-height: 240px; }
   .chart-cell > div { height: 240px; }
   .team-grid--interns { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .team-lead-grid { gap: 20px; }
   .team-card { padding: 12px 6px; }
   .team-avatar { width: 82px; height: 82px; font-size: 1.5rem; }
   .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -358,6 +360,7 @@ textarea:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
 @media (max-width: 400px) {
   .eq-grid { grid-template-columns: 1fr; }
   .team-grid--interns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .team-lead-grid { grid-template-columns: 1fr; gap: 16px; }
   .summary-grid { grid-template-columns: 1fr; }
   .combo select { flex: 0 0 60px; width: 60px; font-size: 0.7rem; }
 }
