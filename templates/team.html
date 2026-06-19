@@ -15,21 +15,31 @@
 
   <main class="container">
     <h2 class="page-title">The PSI Lab Team</h2>
-    <p class="page-subtitle">Undergraduate Interns who built S.A.M.A.V.E.S.H.</p>
+    <p class="page-subtitle">The people behind S.A.M.A.V.E.S.H.</p>
 
-    <div class="team-grid">
+    <section class="team-section" aria-labelledby="interns-heading">
+      <h3 id="interns-heading" class="team-section-title">Undergraduate Interns</h3>
+      <div class="team-grid team-grid--interns">
       {% for name in team %}
       <div class="team-card">
         <div class="team-avatar">{{ name[0] }}</div>
         <h3>{{ name }}</h3>
+        <p>UG Intern</p>
       </div>
       {% endfor %}
-    </div>
+      </div>
+    </section>
 
-    <div class="team-supervisor">
-      <p><strong>Supervisor:</strong> Prof. Sudip Das</p>
-      <p><strong>Lab:</strong> The PSI Lab, IIT Kharagpur</p>
-    </div>
+    <section class="team-section team-section--lead" aria-labelledby="leadership-heading">
+      <h3 id="leadership-heading" class="team-section-title">Faculty</h3>
+      <div class="team-card team-card--lead">
+        <div class="team-avatar">S</div>
+        <h3>Prof. Sudip Das</h3>
+        <p>Assistant Professor</p>
+      </div>
+    </section>
+
+    <p class="team-lab">The PSI Lab, IIT Kharagpur</p>
   </main>
 
   <footer class="page-footer">
