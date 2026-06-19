@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis | Valve | S.A.M.A.V.E.S.H.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="top-bar">
+    <a href="{{ url_for('equipment') }}" class="back-link">&larr; Back</a>
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
+    <span class="top-title">Valve Analysis</span>
+  </nav>
+  <main class="container">
+    <form action="{{ url_for('calculate_valve') }}" method="POST" class="analysis-form">
+      <input type="hidden" name="equipment" value="valve">
+      <div class="panel">
+        <div class="panel-head"><span class="panel-tag">A</span><h3>Process Specs</h3></div>
+        <div class="grid-3">
+          <div class="field">
+            <label>Valve Size</label>
+            <div class="combo">
+              <input type="number" step="any" name="valve_size" required>
+              <select name="size_unit">
+                <option value="" disabled selected></option>
+                <option value="mm">mm</option><option value="in">in</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Pressure Rating</label>
+            <div class="combo">
+              <input type="number" step="any" name="pressure_rating">
+              <select name="pressure_unit">
+                <option value="" disabled selected></option>
+                <option value="bar">bar</option><option value="psi">psi</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Operating Temp</label>
+            <div class="combo">
+              <input type="number" step="any" name="operating_temp">
+              <select name="temp_unit">
+                <option value="" disabled selected></option>
+                <option value="degC">&deg;C</option><option value="degF">&deg;F</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span class="panel-tag">B</span><h3>Valve Details</h3></div>
+        <div class="grid-3">
+          <div class="field">
+            <label>Valve Type</label>
+            <select name="valve_type">
+              <option value="" disabled selected></option>
+              <option>Gate</option><option>Globe</option><option>Ball</option>
+              <option>Butterfly</option><option>Check</option><option>Control</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Material</label>
+            <select name="valve_material">
+              <option value="" disabled selected></option>
+              <option>Carbon Steel</option><option>SS304</option><option>SS316</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Bare Module Factor (F<sub>BM</sub>)</label>
+            <input type="number" step="any" name="bare_module_factor">
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span class="panel-tag">$</span><h3>Economics</h3></div>
+        <div class="grid-3">
+          <div class="field">
+            <label>Utility Cost</label>
+            <div class="combo">
+              <input type="number" step="any" name="utility_cost">
+              <select name="utility_cost_unit">
+                <option value="" disabled selected></option>
+                <option value="$/kWh">$/kWh</option>
+                <option value="$/MWh">$/MWh</option>
+                <option value="$/GJ">$/GJ</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Discount Rate (%)</label>
+            <input type="number" step="any" name="discount_rate">
+          </div>
+          <div class="field">
+            <label>Plant Life (yr)</label>
+            <input type="number" step="1" name="plant_life">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="field">
+            <label>Operating Hours/yr</label>
+            <input type="number" step="any" name="operating_hours">
+          </div>
+          <div class="field">
+            <label>Maintenance (% of TCI)</label>
+            <input type="number" step="any" name="maintenance_pct">
+          </div>
+          <div class="field">
+            <label>Contingency (% of CBM)</label>
+            <input type="number" step="any" name="contingency_pct">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="field">
+            <label>Working Capital (% of FCI)</label>
+            <input type="number" step="any" name="working_capital_pct">
+          </div>
+          <div class="field">
+            <label>Currency</label>
+            <select name="currency">
+              <option value="" disabled selected></option>
+              <option value="USD">$ USD</option>
+              <option value="INR">&#x20B9; INR</option>
+              <option value="EUR">&euro; EUR</option>
+              <option value="GBP">&pound; GBP</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn-run">See Results &rarr;</button>
+    </form>
+    <div class="action-row" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <a href="{{ url_for('equipment') }}" class="btn-pdf">Add Another Equipment</a>
+      <a href="{{ url_for('net_capex') }}" class="btn-ghost">Proceed to Net CapEx &rarr;</a>
+    </div>
+  </main>
+  <footer class="page-footer">
+    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
+    <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
+  </footer>
+</body>
+</html>

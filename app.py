@@ -97,6 +97,8 @@ def analysis(eq_type):
         "vessel": "analysis_vessel.html",
         "reactor": "analysis_reactor.html",
         "compressor": "analysis_compressor.html",
+        "valve": "analysis_valve.html",
+        "kod": "analysis_kod.html",
     }
     tmpl = template_map.get(eq_type, "analysis.html")
     return render_template(tmpl, eq_type=eq_type)
@@ -288,6 +290,26 @@ def calculate_compressor():
     currency = request.form.get("currency", "USD")
     symbol = CURRENCY_SYMBOLS.get(currency, "$")
     return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Compressor", request.form.get("compressor_material", "Carbon Steel"), "N/A", {"heat_duty_kw": heat_duty_kw, "area_m2": 0, "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
+
+
+@app.route("/calculate-valve", methods=["POST"])
+def calculate_valve():
+    heat_duty_kw = 0
+    purchase_cost = _num("purchase_cost", 5000)
+    bare_module_factor = _num("bare_module_factor", 2.5)
+    currency = request.form.get("currency", "USD")
+    symbol = CURRENCY_SYMBOLS.get(currency, "$")
+    return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Valve", request.form.get("valve_material", "Carbon Steel"), "N/A", {"heat_duty_kw": 0, "area_m2": 0, "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
+
+
+@app.route("/calculate-kod", methods=["POST"])
+def calculate_kod():
+    heat_duty_kw = 0
+    purchase_cost = _num("purchase_cost", 30000)
+    bare_module_factor = _num("bare_module_factor", 3.0)
+    currency = request.form.get("currency", "USD")
+    symbol = CURRENCY_SYMBOLS.get(currency, "$")
+    return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Knock Out Drum", request.form.get("vessel_material", "Carbon Steel"), "N/A", {"heat_duty_kw": 0, "area_m2": 0, "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
 
 
 @app.route("/net-capex")
