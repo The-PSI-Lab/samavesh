@@ -27,6 +27,10 @@
           <img src="{{ url_for('static', filename='images/srikar-nemani.png') }}" alt="Srikar Nemani">
           {% elif name == "V. S. Mohammad Aakhib" %}
           <img src="{{ url_for('static', filename='images/aakhib.png') }}" alt="V. S. Mohammad Aakhib">
+          {% elif name == "Sangram Chakraborty" %}
+          <img src="{{ url_for('static', filename='images/sangram-chakraborty.png') }}" alt="Sangram Chakraborty" class="team-photo--sangram">
+          {% elif name == "Trishita Chandra" %}
+          <img src="{{ url_for('static', filename='images/trishita-chandra.png') }}" alt="Trishita Chandra">
           {% else %}
           {{ name[0] }}
           {% endif %}
