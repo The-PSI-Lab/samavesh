@@ -134,9 +134,9 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-
 }
 .field input:focus, .field select:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
 .field input[type="number"] { font-family: var(--mono); }
-.combo { display: flex; gap: 8px; }
-.combo input { flex: 1 1 auto; }
-.combo select { flex: 0 0 90px; width: 90px; }
+.combo { display: flex; gap: 0; }
+.combo input { flex: 1 1 auto; border-radius: 7px 0 0 7px; }
+.combo select { flex: 0 0 95px; width: 95px; border-radius: 0 7px 7px 0; border-left: none; }
 .btn-run {
   display: block; width: 100%; padding: 14px;
   background: var(--green); color: #fff; border: none;
