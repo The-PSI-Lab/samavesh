@@ -25,13 +25,15 @@
             <div class="combo">
               <input type="number" step="any" name="heat_duty" required>
               <select name="heat_duty_unit">
-                <option value="kW" selected>kW</option><option value="MW">MW</option>
+                <option value="" disabled selected></option>
+                <option value="kW">kW</option><option value="MW">MW</option>
               </select>
             </div>
           </div>
           <div class="field">
             <label>Utility Type</label>
             <select name="utility_type">
+              <option value="" disabled selected></option>
               <option>Steam</option><option>Cooling Water</option>
               <option>Electricity</option><option>Hot Oil</option>
               <option>Refrigeration</option><option>Natural Gas</option>
@@ -50,6 +52,7 @@
           <div class="field">
             <label>HX Type</label>
             <select name="hx_type">
+              <option value="" disabled selected></option>
               <option>Shell and Tube</option><option>Double Pipe</option>
               <option>Air Cooler</option><option>Plate HX</option>
             </select>
@@ -58,14 +61,20 @@
             <label>Heat Transfer Area</label>
             <div class="combo">
               <input type="number" step="any" name="area">
-              <select name="area_unit"><option value="m2" selected>m²</option><option value="ft2">ft²</option></select>
+              <select name="area_unit">
+                <option value="" disabled selected></option>
+                <option value="m2">m&sup2;</option><option value="ft2">ft&sup2;</option>
+              </select>
             </div>
           </div>
           <div class="field">
             <label>Shell ID</label>
             <div class="combo">
               <input type="number" step="any" name="shell_id">
-              <select name="shell_id_unit"><option value="m" selected>m</option><option value="mm">mm</option></select>
+              <select name="shell_id_unit">
+                <option value="" disabled selected></option>
+                <option value="m">m</option><option value="mm">mm</option>
+              </select>
             </div>
           </div>
         </div>
@@ -74,7 +83,10 @@
             <label>Tube Length</label>
             <div class="combo">
               <input type="number" step="any" name="tube_length">
-              <select name="tube_length_unit"><option value="m" selected>m</option><option value="mm">mm</option></select>
+              <select name="tube_length_unit">
+                <option value="" disabled selected></option>
+                <option value="m">m</option><option value="mm">mm</option>
+              </select>
             </div>
           </div>
           <div class="field">
@@ -85,7 +97,10 @@
             <label>Tube OD</label>
             <div class="combo">
               <input type="number" step="any" name="tube_od">
-              <select name="tube_od_unit"><option value="mm" selected>mm</option><option value="in">in</option></select>
+              <select name="tube_od_unit">
+                <option value="" disabled selected></option>
+                <option value="mm">mm</option><option value="in">in</option>
+              </select>
             </div>
           </div>
         </div>
@@ -94,27 +109,35 @@
             <label>Design Pressure</label>
             <div class="combo">
               <input type="number" step="any" name="design_pressure">
-              <select name="pressure_unit"><option value="bar" selected>bar</option><option value="psi">psi</option></select>
+              <select name="pressure_unit">
+                <option value="" disabled selected></option>
+                <option value="bar">bar</option><option value="psi">psi</option>
+              </select>
             </div>
           </div>
           <div class="field">
             <label>Design Temp</label>
             <div class="combo">
               <input type="number" step="any" name="design_temp">
-              <select name="temp_unit"><option value="degC" selected>°C</option><option value="degF">°F</option></select>
+              <select name="temp_unit">
+                <option value="" disabled selected></option>
+                <option value="degC">&deg;C</option><option value="degF">&deg;F</option>
+              </select>
             </div>
           </div>
           <div class="field">
             <label>Shell Material</label>
             <select name="shell_material">
+              <option value="" disabled selected></option>
               <option>Carbon Steel</option><option>SS304</option><option>SS316</option>
             </select>
           </div>
         </div>
-          <div class="grid-3">
+        <div class="grid-3">
           <div class="field">
             <label>Tube Material</label>
             <select name="tube_material">
+              <option value="" disabled selected></option>
               <option>Carbon Steel</option><option>SS304</option><option>SS316</option>
             </select>
           </div>
@@ -133,7 +156,8 @@
             <div class="combo">
               <input type="number" step="any" name="utility_cost">
               <select name="utility_cost_unit">
-                <option value="$/kWh" selected>$/kWh</option>
+                <option value="" disabled selected></option>
+                <option value="$/kWh">$/kWh</option>
                 <option value="$/MWh">$/MWh</option>
                 <option value="$/GJ">$/GJ</option>
               </select>
@@ -170,21 +194,22 @@
           <div class="field">
             <label>Currency</label>
             <select name="currency">
-              <option value="USD" selected>$ USD</option>
-              <option value="INR">₹ INR</option>
-              <option value="EUR">€ EUR</option>
-              <option value="GBP">£ GBP</option>
+              <option value="" disabled selected></option>
+              <option value="USD">$ USD</option>
+              <option value="INR">&#x20B9; INR</option>
+              <option value="EUR">&euro; EUR</option>
+              <option value="GBP">&pound; GBP</option>
             </select>
           </div>
         </div>
       </div>
 
-      <button type="submit" class="btn-run">See Results →</button>
+      <button type="submit" class="btn-run">See Results &rarr;</button>
     </form>
 
     <div class="action-row" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
       <a href="{{ url_for('equipment') }}" class="btn-pdf">Add Another Equipment</a>
-      <a href="{{ url_for('net_capex') }}" class="btn-ghost">Proceed to Net CapEx →</a>
+      <a href="{{ url_for('net_capex') }}" class="btn-ghost">Proceed to Net CapEx &rarr;</a>
     </div>
   </main>
 
