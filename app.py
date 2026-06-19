@@ -102,11 +102,8 @@ def analysis(eq_type):
         "dryer": "analysis_dryer.html",
         "adsorber": "analysis_adsorber.html",
         "absorber": "analysis_absorber.html",
-        "cooler": "analysis_cooler.html",
         "blower": "analysis_blower.html",
         "fan": "analysis_fan.html",
-        "heater": "analysis_heater.html",
-        "plate": "analysis_plate.html",
         "thickener": "analysis_thickener.html",
         "clarifier": "analysis_clarifier.html",
         "filter": "analysis_filter.html",
@@ -355,16 +352,6 @@ def calculate_absorber():
     return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Absorber", request.form.get("absorber_material", "Carbon Steel"), "N/A", {"heat_duty_kw": 0, "area_m2": 0, "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
 
 
-@app.route("/calculate-cooler", methods=["POST"])
-def calculate_cooler():
-    heat_duty_kw = units.watts_to_kw(units.to_watts(_num("heat_duty"), request.form.get("heat_duty_unit", "kW")))
-    purchase_cost = _num("purchase_cost", 40000)
-    bare_module_factor = _num("bare_module_factor", 3.0)
-    currency = request.form.get("currency", "USD")
-    symbol = CURRENCY_SYMBOLS.get(currency, "$")
-    return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Cooler", request.form.get("cooler_material", "Carbon Steel"), "N/A", {"heat_duty_kw": heat_duty_kw, "area_m2": _num("area"), "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
-
-
 @app.route("/calculate-blower", methods=["POST"])
 def calculate_blower():
     power_kw = _num("power")
@@ -389,26 +376,6 @@ def calculate_fan():
     currency = request.form.get("currency", "USD")
     symbol = CURRENCY_SYMBOLS.get(currency, "$")
     return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Fan", request.form.get("fan_material", "Carbon Steel"), "N/A", {"heat_duty_kw": heat_duty_kw, "area_m2": 0, "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
-
-
-@app.route("/calculate-heater", methods=["POST"])
-def calculate_heater():
-    heat_duty_kw = units.watts_to_kw(units.to_watts(_num("heat_duty"), request.form.get("heat_duty_unit", "kW")))
-    purchase_cost = _num("purchase_cost", 45000)
-    bare_module_factor = _num("bare_module_factor", 3.0)
-    currency = request.form.get("currency", "USD")
-    symbol = CURRENCY_SYMBOLS.get(currency, "$")
-    return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Heater", request.form.get("heater_material", "Carbon Steel"), "N/A", {"heat_duty_kw": heat_duty_kw, "area_m2": _num("area"), "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
-
-
-@app.route("/calculate-plate", methods=["POST"])
-def calculate_plate():
-    heat_duty_kw = units.watts_to_kw(units.to_watts(_num("heat_duty"), request.form.get("heat_duty_unit", "kW")))
-    purchase_cost = _num("purchase_cost", 30000)
-    bare_module_factor = _num("bare_module_factor", 3.0)
-    currency = request.form.get("currency", "USD")
-    symbol = CURRENCY_SYMBOLS.get(currency, "$")
-    return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Plate HX", request.form.get("plate_material", "SS304"), "N/A", {"heat_duty_kw": heat_duty_kw, "area_m2": _num("plate_area"), "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
 
 
 @app.route("/calculate-thickener", methods=["POST"])
