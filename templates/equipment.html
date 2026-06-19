@@ -22,9 +22,14 @@
 
     <div class="eq-grid">
       <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="eq-card">
-        <div class="eq-icon">⇌</div>
+        <div class="eq-icon">&#8652;</div>
         <h3>Heat Exchanger</h3>
-        <p>Shell & Tube, Double Pipe, Air Cooler, Plate</p>
+        <p>Shell &amp; Tube, Double Pipe, Air Cooler, Plate</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='distillation_column') }}" class="eq-card">
+        <div class="eq-icon">&#9635;</div>
+        <h3>Distillation Column</h3>
+        <p>Trayed &amp; Packed Columns, Reboiler &amp; Condenser</p>
       </a>
     </div>
 

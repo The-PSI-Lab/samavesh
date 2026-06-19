@@ -91,6 +91,8 @@ def equipment():
 
 @app.route("/analysis/<eq_type>")
 def analysis(eq_type):
+    if eq_type == "distillation_column":
+        return render_template("analysis_distillation.html", eq_type=eq_type)
     return render_template("analysis.html", eq_type=eq_type)
 
 
@@ -198,6 +200,64 @@ def calculate():
         capex=capex, opex=opex, econ=econ, rows=rows,
         plant_life=plant_life, chart_data=chart_data,
     )
+
+
+@app.route("/calculate-distillation", methods=["POST"])
+def calculate_distillation():
+    reboiler_kw = units.watts_to_kw(units.to_watts(_num("reboiler_duty"), request.form.get("reboiler_duty_unit", "kW")))
+    condenser_kw = units.watts_to_kw(units.to_watts(_num("condenser_duty"), request.form.get("condenser_duty_unit", "kW")))
+    heat_duty_kw = reboiler_kw + condenser_kw
+
+    column_diameter_m = units.to_metres(_num("column_diameter"), request.form.get("column_diameter_unit", "m"))
+    column_height_m = units.to_metres(_num("column_height"), request.form.get("column_height_unit", "m"))
+    num_stages = _int("num_stages")
+    pressure_pa = units.to_pascal(_num("operating_pressure"), request.form.get("pressure_unit", "bar"))
+    temp_k = units.to_kelvin(_num("operating_temp"), request.form.get("temp_unit", "degC"))
+
+    purchase_cost = _num("purchase_cost", 100000)
+    bare_module_factor = _num("bare_module_factor", 4.0)
+    contingency_fraction = _pct("contingency_pct", 18.0)
+    working_capital_fraction = _pct("working_capital_pct", 15.0)
+    maintenance_fraction = _pct("maintenance_pct", 5.0)
+    plant_life = _int("plant_life", 15)
+    discount_rate = _pct("discount_rate", 10.0)
+    operating_hours = _num("operating_hours", 8000.0)
+    utility_cost_per_kwh = units.utility_cost_to_per_kwh(
+        _num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")
+    )
+
+    currency = request.form.get("currency", "USD")
+    symbol = CURRENCY_SYMBOLS.get(currency, "$")
+
+    capex = compute_capex(purchase_cost, bare_module_factor, contingency_fraction, working_capital_fraction)
+    opex = compute_opex(heat_duty_kw, operating_hours, utility_cost_per_kwh, capex.tci, maintenance_fraction)
+    rows = build_cashflow(capex.tci, opex.net_annual_benefit, plant_life)
+    flows = net_cash_flows(rows)
+    econ = compute_economics(flows, capex.tci, opex.net_annual_benefit, discount_rate)
+
+    sensitivity = _build_sensitivity(capex, opex, plant_life, discount_rate, purchase_cost, bare_module_factor, contingency_fraction, working_capital_fraction, maintenance_fraction, opex.annual_energy_kwh, utility_cost_per_kwh)
+
+    chart_data = {
+        "currency": symbol,
+        "capex_breakdown": {
+            "labels": ["Purchase cost", "Installation", "Contingency", "Working capital"],
+            "values": [capex.purchase_cost, capex.bare_module_cost - capex.purchase_cost, capex.contingency_cost, capex.working_capital],
+        },
+        "opex_breakdown": {
+            "labels": ["Maintenance", "Net annual benefit"],
+            "values": [opex.maintenance_cost, max(opex.net_annual_benefit, 0.0)],
+        },
+        "cashflow": {
+            "years": [r.year for r in rows],
+            "net": [r.net_cash_flow for r in rows],
+            "cumulative": [r.cumulative for r in rows],
+        },
+        "npv_sensitivity": sensitivity["npv"],
+        "discount_sensitivity": sensitivity["discount"],
+        "irr": econ.irr,
+    }
+
+    return render_template("results.html", symbol=symbol, currency=currency, team=TEAM, project_id=session.get("project_id", ""), tag_id=request.form.get("tag_id", "N/A"), hx_type="Distillation Column", shell_material=request.form.get("column_material", "Carbon Steel"), tube_material="N/A", si={"heat_duty_kw": heat_duty_kw, "area_m2": 0, "shell_id_m": column_diameter_m, "tube_length_m": column_height_m, "tube_od_m": 0, "num_tubes": num_stages, "pressure_pa": pressure_pa, "temp_k": temp_k}, capex=capex, opex=opex, econ=econ, rows=rows, plant_life=plant_life, chart_data=chart_data)
 
 
 @app.route("/net-capex")
