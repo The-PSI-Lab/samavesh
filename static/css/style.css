@@ -101,7 +101,8 @@ body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-
   transition: 0.15s;
 }
 .eq-card:hover { border-color: var(--blue); box-shadow: 0 4px 20px rgba(31,111,235,0.1); transform: translateY(-4px); }
-.eq-icon { font-size: 3rem; margin-bottom: 12px; }
+.eq-icon { font-size: 3rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; min-height: 3rem; }
+.eq-icon svg { display: block; width: 3rem; height: 3rem; }
 .eq-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
 .eq-card p { font-size: 0.85rem; color: var(--muted); }
 
@@ -318,7 +319,8 @@ textarea:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
   .btn-ghost { padding: 10px 16px; font-size: 0.85rem; }
   .eq-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .eq-card { padding: 20px 12px; }
-  .eq-icon { font-size: 2rem; }
+  .eq-icon { font-size: 2rem; min-height: 2rem; }
+  .eq-icon svg { width: 2rem; height: 2rem; }
   .eq-card h3 { font-size: 1rem; }
   .eq-card p { font-size: 0.75rem; }
   .action-row { margin: 16px 0 24px; }

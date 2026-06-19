@@ -22,7 +22,20 @@
 
     <div class="eq-grid">
       <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="eq-card">
-        <div class="eq-icon">&#8652;</div>
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="4" y="10" width="40" height="28" rx="3" stroke="#1a2230" stroke-width="2"></rect>
+            <line x1="12" y1="10" x2="12" y2="38" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="24" y1="10" x2="24" y2="38" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="36" y1="10" x2="36" y2="38" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="4" y1="18" x2="12" y2="18" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="4" y1="30" x2="12" y2="30" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="24" y1="18" x2="36" y2="18" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="24" y1="30" x2="36" y2="30" stroke="#1a2230" stroke-width="2"></line>
+            <polyline points="8,22 16,18 16,22 24,18 24,22 32,18 32,22 40,18" stroke="#1f6feb" stroke-width="1.5"></polyline>
+            <polyline points="8,26 16,30 16,26 24,30 24,26 32,30 32,26 40,30" stroke="#d1493f" stroke-width="1.5"></polyline>
+          </svg>
+        </div>
         <h3>Heat Exchanger</h3>
         <p>Shell &amp; Tube, Double Pipe, Air Cooler, Plate</p>
       </a>
@@ -60,6 +73,209 @@
         <div class="eq-icon">&#9711;</div>
         <h3>Knock Out Drum</h3>
         <p>Vertical &amp; Horizontal Vapour-Liquid Separation</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='dryer') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="6" y="12" width="36" height="24" rx="2" stroke="#1a2230" stroke-width="2"></rect>
+            <path d="M12 20 Q18 14 24 20 Q30 26 36 20" stroke="#d1493f" stroke-width="1.8"></path>
+            <path d="M12 28 Q18 22 24 28 Q30 34 36 28" stroke="#1f6feb" stroke-width="1.8"></path>
+            <line x1="18" y1="36" x2="16" y2="40" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="24" y1="36" x2="24" y2="40" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="30" y1="36" x2="32" y2="40" stroke="#1a2230" stroke-width="2"></line>
+            <path d="M8 10 L10 6 L14 10" stroke="#ff8c42" stroke-width="1.5"></path>
+          </svg>
+        </div>
+        <h3>Dryer</h3>
+        <p>Rotary, Fluid Bed, Spray, Flash, Tray</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='adsorber') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="10" y="8" width="28" height="32" rx="3" stroke="#1a2230" stroke-width="2"></rect>
+            <line x1="10" y1="16" x2="38" y2="16" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="10" y1="24" x2="38" y2="24" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="10" y1="32" x2="38" y2="32" stroke="#1a2230" stroke-width="2"></line>
+            <circle cx="18" cy="12" r="1.5" fill="#1f6feb"></circle>
+            <circle cx="24" cy="20" r="1.5" fill="#1f6feb"></circle>
+            <circle cx="30" cy="28" r="1.5" fill="#1f6feb"></circle>
+            <circle cx="18" cy="28" r="1.5" fill="#1f6feb"></circle>
+            <circle cx="24" cy="36" r="1.5" fill="#1f6feb"></circle>
+            <circle cx="30" cy="12" r="1.5" fill="#1f6feb"></circle>
+          </svg>
+        </div>
+        <h3>Adsorber</h3>
+        <p>Activated Carbon, Silica Gel, Zeolite, Alumina</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='absorber') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="14" y="6" width="20" height="36" rx="2" stroke="#1a2230" stroke-width="2"></rect>
+            <line x1="14" y1="14" x2="34" y2="14" stroke="#1a2230" stroke-width="1.5"></line>
+            <line x1="14" y1="22" x2="34" y2="22" stroke="#1a2230" stroke-width="1.5"></line>
+            <line x1="14" y1="30" x2="34" y2="30" stroke="#1a2230" stroke-width="1.5"></line>
+            <path d="M6 10 L14 10 L14 14" stroke="#d1493f" stroke-width="1.5"></path>
+            <path d="M6 38 L14 38 L14 34" stroke="#1f6feb" stroke-width="1.5"></path>
+            <path d="M34 10 L42 10" stroke="#1f6feb" stroke-width="1.5"></path>
+            <path d="M34 38 L42 38" stroke="#d1493f" stroke-width="1.5"></path>
+          </svg>
+        </div>
+        <h3>Absorber</h3>
+        <p>Packed Columns, Gas-Liquid Absorption</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='cooler') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="14" width="32" height="20" rx="3" stroke="#1a2230" stroke-width="2"></rect>
+            <line x1="16" y1="14" x2="16" y2="34" stroke="#1a2230" stroke-width="1.5"></line>
+            <line x1="24" y1="14" x2="24" y2="34" stroke="#1a2230" stroke-width="1.5"></line>
+            <line x1="32" y1="14" x2="32" y2="34" stroke="#1a2230" stroke-width="1.5"></line>
+            <path d="M8 20 L16 24 L16 20 L24 24 L24 20 L32 24 L32 20 L40 24" stroke="#1f6feb" stroke-width="1.5"></path>
+            <path d="M8 28 L16 24 L16 28 L24 24 L24 28 L32 24 L32 28 L40 24" stroke="#d1493f" stroke-width="1.5"></path>
+          </svg>
+        </div>
+        <h3>Cooler</h3>
+        <p>Shell &amp; Tube, Double Pipe, Plate, Fin-Fan</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='blower') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="12" stroke="#1a2230" stroke-width="2"></circle>
+            <path d="M24 12 A12 12 0 0 1 36 24" stroke="#1f6feb" stroke-width="2"></path>
+            <path d="M24 36 A12 12 0 0 1 12 24" stroke="#d1493f" stroke-width="2"></path>
+            <circle cx="24" cy="24" r="4" stroke="#1a2230" stroke-width="1.5"></circle>
+            <line x1="36" y1="24" x2="44" y2="24" stroke="#1a2230" stroke-width="2"></line>
+            <line x1="12" y1="24" x2="4" y2="24" stroke="#1a2230" stroke-width="2"></line>
+          </svg>
+        </div>
+        <h3>Blower</h3>
+        <p>Centrifugal, Axial, Positive Displacement</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='fan') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="14" stroke="#1a2230" stroke-width="2"></circle>
+            <path d="M24 12 C36 12 36 24 24 24 C12 24 12 36 24 36" stroke="#1f6feb" stroke-width="1.8"></path>
+            <circle cx="24" cy="24" r="3" stroke="#1a2230" stroke-width="1.5"></circle>
+          </svg>
+        </div>
+        <h3>Fan</h3>
+        <p>Centrifugal, Axial, Crossflow</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='heater') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="14" width="32" height="20" rx="3" stroke="#1a2230" stroke-width="2"></rect>
+            <line x1="16" y1="14" x2="16" y2="34" stroke="#1a2230" stroke-width="1.5"></line>
+            <line x1="24" y1="14" x2="24" y2="34" stroke="#1a2230" stroke-width="1.5"></line>
+            <line x1="32" y1="14" x2="32" y2="34" stroke="#1a2230" stroke-width="1.5"></line>
+            <path d="M8 20 L16 24 L16 20 L24 24 L24 20 L32 24 L32 20 L40 24" stroke="#d1493f" stroke-width="1.5"></path>
+            <path d="M8 28 L16 24 L16 28 L24 24 L24 28 L32 24 L32 28 L40 24" stroke="#ff8c42" stroke-width="1.5"></path>
+          </svg>
+        </div>
+        <h3>Heater</h3>
+        <p>Shell &amp; Tube, Fired, Electric, Double Pipe</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='plate') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="4" y="8" width="8" height="32" rx="1" stroke="#1a2230" stroke-width="1.5"></rect>
+            <rect x="13" y="8" width="8" height="32" rx="1" stroke="#1a2230" stroke-width="1.5"></rect>
+            <rect x="22" y="8" width="8" height="32" rx="1" stroke="#1a2230" stroke-width="1.5"></rect>
+            <rect x="31" y="8" width="8" height="32" rx="1" stroke="#1a2230" stroke-width="1.5"></rect>
+            <path d="M4 12 L12 12 L12 20 L4 20" stroke="#1f6feb" stroke-width="1" fill="#1f6feb" fill-opacity="0.15"></path>
+            <path d="M22 28 L31 28 L31 36 L22 36" stroke="#d1493f" stroke-width="1" fill="#d1493f" fill-opacity="0.15"></path>
+            <path d="M40 12 L44 12 L44 20 L40 20" stroke="#1f6feb" stroke-width="1.2"></path>
+            <path d="M40 28 L44 28 L44 36 L40 36" stroke="#d1493f" stroke-width="1.2"></path>
+          </svg>
+        </div>
+        <h3>Plate HX</h3>
+        <p>Chevron, Ripple, Washboard Plate Exchangers</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='thickener') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M8 40 L40 40 L36 14 L12 14 Z" stroke="#1a2230" stroke-width="2"></path>
+            <line x1="24" y1="14" x2="24" y2="40" stroke="#1a2230" stroke-width="1.5"></line>
+            <line x1="14" y1="24" x2="34" y2="24" stroke="#1a2230" stroke-width="1"></line>
+            <line x1="14" y1="30" x2="34" y2="30" stroke="#1a2230" stroke-width="1"></line>
+            <line x1="14" y1="36" x2="34" y2="36" stroke="#1a2230" stroke-width="1"></line>
+            <circle cx="24" cy="18" r="2" fill="#1f6feb"></circle>
+            <path d="M8 14 L14 14 L14 40" stroke="#1f6feb" stroke-width="1.5"></path>
+          </svg>
+        </div>
+        <h3>Thickener</h3>
+        <p>Conical &amp; Flat Bottom, Gravity Sedimentation</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='clarifier') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="10" width="32" height="28" rx="4" stroke="#1a2230" stroke-width="2"></rect>
+            <line x1="8" y1="24" x2="40" y2="24" stroke="#1a2230" stroke-width="1"></line>
+            <line x1="8" y1="16" x2="40" y2="16" stroke="#1a2230" stroke-width="1" stroke-dasharray="3 3"></line>
+            <line x1="8" y1="32" x2="40" y2="32" stroke="#1a2230" stroke-width="1" stroke-dasharray="3 3"></line>
+            <path d="M24 24 L24 38" stroke="#1f6feb" stroke-width="1.5"></path>
+            <polygon points="22,34 24,38 26,34" fill="#1f6feb"></polygon>
+            <path d="M16 10 L16 6 L32 6 L32 10" stroke="#1a2230" stroke-width="1.5"></path>
+            <path d="M14 6 L16 6" stroke="#1a2230" stroke-width="1.5"></path>
+            <path d="M30 6 L32 6" stroke="#1a2230" stroke-width="1.5"></path>
+          </svg>
+        </div>
+        <h3>Clarifier</h3>
+        <p>Circular, Rectangular, Lamella Settlers</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='filter') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="6" y="10" width="36" height="28" rx="2" stroke="#1a2230" stroke-width="2"></rect>
+            <line x1="6" y1="18" x2="42" y2="18" stroke="#1a2230" stroke-width="1.5"></line>
+            <line x1="6" y1="30" x2="42" y2="30" stroke="#1a2230" stroke-width="1.5"></line>
+            <circle cx="14" cy="14" r="2" fill="#d1493f"></circle>
+            <circle cx="22" cy="14" r="2" fill="#d1493f"></circle>
+            <circle cx="30" cy="14" r="2" fill="#d1493f"></circle>
+            <circle cx="14" cy="22" r="1.5" fill="#1f6feb"></circle>
+            <circle cx="22" cy="22" r="1.5" fill="#1f6feb"></circle>
+            <circle cx="30" cy="22" r="1.5" fill="#1f6feb"></circle>
+            <circle cx="14" cy="34" r="2" fill="#1f6feb"></circle>
+            <circle cx="22" cy="34" r="2" fill="#1f6feb"></circle>
+            <circle cx="30" cy="34" r="2" fill="#1f6feb"></circle>
+            <path d="M18 10 L18 6 L30 6 L30 10" stroke="#1a2230" stroke-width="1.5"></path>
+          </svg>
+        </div>
+        <h3>Filter</h3>
+        <p>Plate &amp; Frame, Rotary Drum, Belt, Candle</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='centrifuge') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <ellipse cx="24" cy="24" rx="16" ry="8" stroke="#1a2230" stroke-width="2"></ellipse>
+            <line x1="8" y1="24" x2="40" y2="24" stroke="#1a2230" stroke-width="1"></line>
+            <path d="M24 16 L24 32" stroke="#1a2230" stroke-width="2"></path>
+            <path d="M24 18 C30 18 34 20 34 24" stroke="#1f6feb" stroke-width="1.5"></path>
+            <path d="M24 30 C18 30 14 28 14 24" stroke="#d1493f" stroke-width="1.5"></path>
+            <line x1="24" y1="32" x2="24" y2="40" stroke="#1a2230" stroke-width="2"></line>
+            <path d="M20 38 L24 42 L28 38" stroke="#1a2230" stroke-width="1.5"></path>
+          </svg>
+        </div>
+        <h3>Centrifuge</h3>
+        <p>Decanter, Disc Stack, Pusher, Scroll</p>
+      </a>
+      <a href="{{ url_for('analysis', eq_type='mill') }}" class="eq-card">
+        <div class="eq-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="26" r="14" stroke="#1a2230" stroke-width="2"></circle>
+            <circle cx="24" cy="26" r="6" stroke="#1a2230" stroke-width="1.5"></circle>
+            <circle cx="24" cy="26" r="2" fill="#1a2230"></circle>
+            <circle cx="18" cy="18" r="3" fill="#d1493f" fill-opacity="0.4" stroke="#d1493f" stroke-width="1"></circle>
+            <circle cx="30" cy="22" r="2.5" fill="#1f6feb" fill-opacity="0.4" stroke="#1f6feb" stroke-width="1"></circle>
+            <circle cx="20" cy="34" r="2" fill="#d1493f" fill-opacity="0.4" stroke="#d1493f" stroke-width="1"></circle>
+            <circle cx="31" cy="32" r="2" fill="#1f6feb" fill-opacity="0.4" stroke="#1f6feb" stroke-width="1"></circle>
+            <line x1="24" y1="12" x2="24" y2="4" stroke="#1a2230" stroke-width="2"></line>
+            <path d="M20 4 L28 4" stroke="#1a2230" stroke-width="2"></path>
+          </svg>
+        </div>
+        <h3>Mill</h3>
+        <p>Ball Mill, Hammer Mill, Rod, Pebble, Jet</p>
       </a>
     </div>
 
