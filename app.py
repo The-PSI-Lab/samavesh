@@ -476,7 +476,117 @@ def _build_sensitivity(capex, opex, plant_life, discount_rate,
             "npv": npv_curve,
         },
     }
+import uuid
+import random
+from datetime import datetime
+
+# In-memory storage for simulated email flow and print OTP requests
+print_requests = {}
+simulated_emails = []
+
+@app.route("/request-print-otp", methods=["POST"])
+def request_print_otp():
+    project_id = None
+    if request.is_json:
+        project_id = request.json.get("project_id")
+    else:
+        project_id = request.form.get("project_id")
+        
+    if not project_id:
+        project_id = session.get("project_id") or "N/A"
+    
+    request_id = str(uuid.uuid4())[:8]
+    # Generate 6-digit OTP
+    otp = f"{random.randint(100000, 999999)}"
+    
+    print_requests[request_id] = {
+        "project_id": project_id,
+        "otp": otp,
+        "status": "pending",
+        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    
+    # Simulate email content
+    email_body = f"""Dear Prof. Sudip Das,
+
+A request has been initiated to print/export the economic assessment report for:
+- Project ID: {project_id}
+- Request Time: {print_requests[request_id]['created_at']}
+
+Please review and approve this request to generate the required One-Time Password (OTP) for printing:
+http://127.0.0.1:5000/professor/approve/{request_id}
+
+Best regards,
+S.A.M.A.V.E.S.H. Notification System"""
+
+    email_entry = {
+        "id": request_id,
+        "to": "prof.sudipdas@example.com",
+        "subject": f"Print Permission Request - Project {project_id}",
+        "body": email_body,
+        "timestamp": datetime.now().strftime("%I:%M:%S %p"),
+        "approved": False,
+        "otp": None
+    }
+    simulated_emails.append(email_entry)
+    
+    # Also log to terminal
+    print("\n" + "="*60)
+    print(f"SIMULATED EMAIL SENT TO: {email_entry['to']}")
+    print(f"SUBJECT: {email_entry['subject']}")
+    print(f"BODY:\n{email_entry['body']}")
+    print("="*60 + "\n")
+    
+    return {"success": True, "request_id": request_id}
+
+@app.route("/professor/approve/<request_id>", methods=["GET", "POST"])
+def professor_approve(request_id):
+    req = print_requests.get(request_id)
+    if not req:
+        return "Request not found", 404
+        
+    if request.method == "POST":
+        req["status"] = "approved"
+        # Find corresponding email entry to update its state
+        for email in simulated_emails:
+            if email["id"] == request_id:
+                email["approved"] = True
+                email["otp"] = req["otp"]
+                break
+        return render_template("professor_approve.html", req=req, approved=True, request_id=request_id)
+        
+    return render_template("professor_approve.html", req=req, approved=False, request_id=request_id)
+
+@app.route("/verify-print-otp", methods=["POST"])
+def verify_print_otp():
+    data = None
+    if request.is_json:
+        data = request.get_json()
+    else:
+        data = request.form
+        
+    request_id = data.get("request_id")
+    user_otp = data.get("otp")
+    
+    req = print_requests.get(request_id)
+    if not req:
+        return {"success": False, "message": "No active print request found. Please request a new OTP."}
+        
+    if req["status"] != "approved":
+        return {"success": False, "message": "This request has not been approved by Prof. Sudip Das yet."}
+        
+    if req["otp"] == user_otp:
+        # OTP is correct, let's mark it as used and return success
+        req["status"] = "used"
+        return {"success": True}
+    else:
+        return {"success": False, "message": "Invalid One-Time Password. Please check and try again."}
+
+@app.route("/mock-mailbox", methods=["GET"])
+def mock_mailbox():
+    return {"emails": simulated_emails}
 
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+

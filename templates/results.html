@@ -153,14 +153,439 @@
 
   <!-- ACTIONS -->
   <div class="actions">
-    <button onclick="window.print()" class="btn">PDF / Print</button>
+    <button onclick="showPrintModal()" class="btn">PDF / Print</button>
     <a href="{{ url_for('analysis', eq_type='heat_exchanger') }}" class="btn">+ Add Equipment</a>
     <a href="{{ url_for('net_capex') }}" class="btn">Net CapEx</a>
   </div>
 
 </div>
 
+<!-- PRINT PERMISSION MODAL -->
+<div id="printModal" class="modal-overlay" onclick="closePrintModalOnOuterClick(event)">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">Print Authorization Required</h2>
+    </div>
+    <div class="modal-body">
+      <p>To print or export this report, you must obtain a One-Time Password (OTP) from <strong>Prof. Sudip Das</strong>.</p>
+      <p style="margin-top: 10px;">Click the button below to send an authorization request email to him.</p>
+      
+      <button id="reqOtpBtn" class="btn" style="width: 100%; margin-top: 12px; padding: 10px;" onclick="requestOtp()">
+        Request Permission OTP
+      </button>
+
+      <div id="otpInputSection" style="display: none; margin-top: 20px;">
+        <hr style="border: 0; border-top: 1px solid #ccc; margin-bottom: 15px;">
+        <p><strong>Enter the 6-digit OTP received from Prof. Sudip Das:</strong></p>
+        <input type="text" id="otpInput" class="modal-input" maxlength="6" placeholder="000000" autocomplete="off">
+        <button id="verifyOtpBtn" class="btn" style="width: 100%; background: #000; color: #fff; padding: 10px;" onclick="verifyOtp()">
+          Verify & Print
+        </button>
+      </div>
+
+      <div id="modalStatus" class="status-msg"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closePrintModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIMULATED PROFESSOR MAILBOX -->
+<div id="simulated-mailbox-widget" class="collapsed">
+  <div class="mailbox-header" onclick="toggleMailbox()">
+    <span>📬 Prof. Sudip Das' Mailbox <span id="unread-badge" class="indicator">1</span></span>
+    <span id="toggle-icon">▲</span>
+  </div>
+  <div class="mailbox-body" id="mailbox-inbox">
+    <div style="text-align: center; color: #777; margin-top: 40px; font-size: 0.85rem;">
+      No emails received yet.<br>Click "Request Permission OTP" in the print modal to trigger an authorization request.
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Print Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 27, 45, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+  .modal-container {
+    background: #fff;
+    border: 1.5px solid #000;
+    padding: 30px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .modal-header {
+    margin-bottom: 20px;
+  }
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f1b2d;
+    letter-spacing: -0.02em;
+  }
+  .modal-body {
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+  }
+  .modal-input {
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid #000;
+    font-family: inherit;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    outline: none;
+    letter-spacing: 4px;
+    text-align: center;
+    font-weight: 700;
+  }
+  .modal-input:focus {
+    background: #f8faff;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .status-msg {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .status-msg.error {
+    color: #d32f2f;
+  }
+  .status-msg.success {
+    color: #2e7d32;
+  }
+  .status-msg.info {
+    color: #1f6feb;
+  }
+
+  /* Mock Mailbox Widget Styles */
+  #simulated-mailbox-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 380px;
+    background: #fff;
+    border: 1.5px solid #000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    transition: transform 0.3s ease;
+  }
+  #simulated-mailbox-widget.collapsed {
+    transform: translateY(calc(100% - 40px));
+  }
+  .mailbox-header {
+    background: #0f1b2d;
+    color: #fff;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .mailbox-header .indicator {
+    background: #ff5252;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+    display: none;
+  }
+  .mailbox-body {
+    height: 280px;
+    overflow-y: auto;
+    padding: 12px;
+    background: #f4f6f8;
+  }
+  .email-item {
+    background: #fff;
+    border: 1px solid #dcdcdc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+  .email-item-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 4px;
+    font-weight: 700;
+  }
+  .email-item-body {
+    white-space: pre-line;
+    color: #555;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .approve-btn-inbox {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #1f6feb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+  }
+  .approve-btn-inbox:hover {
+    background: #14437a;
+  }
+  .otp-reveal {
+    font-weight: bold;
+    color: #2e7d32;
+    background: #e8f5e9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-family: monospace;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+
+  @media print {
+    .modal-overlay, #simulated-mailbox-widget {
+      display: none !important;
+    }
+  }
+</style>
+
 <script id="tea-data" type="application/json">{{ chart_data | tojson }}</script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<script>
+  let currentRequestId = null;
+  let mailboxInterval = null;
+
+  function showPrintModal() {
+    document.getElementById("printModal").style.display = "flex";
+    document.getElementById("otpInputSection").style.display = "none";
+    document.getElementById("otpInput").value = "";
+    document.getElementById("modalStatus").className = "status-msg";
+    document.getElementById("modalStatus").innerText = "";
+    document.getElementById("reqOtpBtn").disabled = false;
+    document.getElementById("reqOtpBtn").innerText = "Request Permission OTP";
+
+    // Expand mailbox widget automatically to hint to the user where the email will land
+    const widget = document.getElementById("simulated-mailbox-widget");
+    widget.classList.remove("collapsed");
+    document.getElementById("toggle-icon").innerText = "▼";
+
+    // Start polling mock mailbox for local demo
+    fetchMailbox();
+    if (!mailboxInterval) {
+      mailboxInterval = setInterval(fetchMailbox, 3000);
+    }
+  }
+
+  function closePrintModal() {
+    document.getElementById("printModal").style.display = "none";
+    if (mailboxInterval) {
+      clearInterval(mailboxInterval);
+      mailboxInterval = null;
+    }
+  }
+
+  function closePrintModalOnOuterClick(event) {
+    if (event.target === document.getElementById("printModal")) {
+      closePrintModal();
+    }
+  }
+
+  function requestOtp() {
+    const reqBtn = document.getElementById("reqOtpBtn");
+    const statusDiv = document.getElementById("modalStatus");
+    const project_id = "{{ project_id }}";
+
+    reqBtn.disabled = true;
+    reqBtn.innerText = "Sending Request...";
+    statusDiv.className = "status-msg info";
+    statusDiv.innerText = "Initiating authorization request...";
+
+    fetch("/request-print-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ project_id: project_id })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        currentRequestId = data.request_id;
+        reqBtn.innerText = "Request Resent";
+        reqBtn.disabled = false;
+        
+        document.getElementById("otpInputSection").style.display = "block";
+        statusDiv.className = "status-msg success";
+        statusDiv.innerText = "Request email simulated and sent to Prof. Sudip Das! Check the mailbox widget below.";
+        
+        // Immediately fetch mailbox to show new email
+        fetchMailbox();
+      } else {
+        reqBtn.disabled = false;
+        reqBtn.innerText = "Request Permission OTP";
+        statusDiv.className = "status-msg error";
+        statusDiv.innerText = "Failed to request OTP: " + (data.message || "Unknown error");
+      }
+    })
+    .catch(err => {
+      reqBtn.disabled = false;
+      reqBtn.innerText = "Request Permission OTP";
+      statusDiv.className = "status-msg error";
+      statusDiv.innerText = "An error occurred while contacting the server.";
+      console.error(err);
+    });
+  }
+
+  function verifyOtp() {
+    const otpInput = document.getElementById("otpInput").value.trim();
+    const statusDiv = document.getElementById("modalStatus");
+    const verifyBtn = document.getElementById("verifyOtpBtn");
+
+    if (!otpInput || otpInput.length !== 6) {
+      statusDiv.className = "status-msg error";
+      statusDiv.innerText = "Please enter a valid 6-digit One-Time Password.";
+      return;
+    }
+
+    verifyBtn.disabled = true;
+    verifyBtn.innerText = "Verifying...";
+
+    fetch("/verify-print-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        request_id: currentRequestId,
+        otp: otpInput
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      verifyBtn.disabled = false;
+      verifyBtn.innerText = "Verify & Print";
+      
+      if (data.success) {
+        statusDiv.className = "status-msg success";
+        statusDiv.innerText = "OTP Verified! Opening print dialog...";
+        setTimeout(() => {
+          closePrintModal();
+          window.print();
+        }, 1000);
+      } else {
+        statusDiv.className = "status-msg error";
+        statusDiv.innerText = data.message || "Invalid OTP. Please try again.";
+      }
+    })
+    .catch(err => {
+      verifyBtn.disabled = false;
+      verifyBtn.innerText = "Verify & Print";
+      statusDiv.className = "status-msg error";
+      statusDiv.innerText = "An error occurred while verifying the OTP.";
+      console.error(err);
+    });
+  }
+
+  // Mailbox Widget Utilities
+  function toggleMailbox() {
+    const widget = document.getElementById("simulated-mailbox-widget");
+    const icon = document.getElementById("toggle-icon");
+    widget.classList.toggle("collapsed");
+    if (widget.classList.contains("collapsed")) {
+      icon.innerText = "▲";
+    } else {
+      icon.innerText = "▼";
+      document.getElementById("unread-badge").style.display = "none";
+    }
+  }
+
+  function fetchMailbox() {
+    fetch("/mock-mailbox")
+    .then(res => res.json())
+    .then(data => {
+      const inbox = document.getElementById("mailbox-inbox");
+      const unreadBadge = document.getElementById("unread-badge");
+      
+      if (!data.emails || data.emails.length === 0) {
+        return;
+      }
+      
+      let html = "";
+      let hasUnread = false;
+      
+      // Show newest first
+      const emails = [...data.emails].reverse();
+      
+      emails.forEach(email => {
+        const approvedTag = email.approved 
+          ? `<span class="otp-reveal">OTP: ${email.otp}</span>`
+          : `<a href="/professor/approve/${email.id}" target="_blank" class="approve-btn-inbox">Go to Approval Portal</a>`;
+          
+        if (!email.approved) {
+          hasUnread = true;
+        }
+
+        html += `
+          <div class="email-item">
+            <div class="email-item-header">
+              <span>To: ${email.to}</span>
+              <span style="color: #666; font-size: 0.7rem;">${email.timestamp}</span>
+            </div>
+            <div style="font-weight: 600; margin-bottom: 4px; font-size: 0.75rem;">Subject: ${email.subject}</div>
+            <div class="email-item-body">${email.body}</div>
+            <div style="margin-top: 8px;">
+              ${approvedTag}
+            </div>
+          </div>
+        `;
+      });
+      
+      inbox.innerHTML = html;
+      
+      // If widget is collapsed and we have new unread emails, show red badge
+      const widget = document.getElementById("simulated-mailbox-widget");
+      if (widget.classList.contains("collapsed") && hasUnread) {
+        unreadBadge.style.display = "inline-block";
+      } else {
+        unreadBadge.style.display = "none";
+      }
+    })
+    .catch(err => console.error("Error fetching mailbox:", err));
+  }
+</script>
 </body>
 </html>

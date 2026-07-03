@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professor Approval Portal | S.A.M.A.V.E.S.H.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    .approval-container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    .otp-display {
+      background: #f1f6ff;
+      border: 2px dashed #1f6feb;
+      color: #1f6feb;
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-family: var(--mono);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .status-pending {
+      background: #fff8e1;
+      color: #b78103;
+      border: 1px solid #ffe0b2;
+    }
+    .status-approved {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+    .btn-approve {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: #1f6feb;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn-approve:hover {
+      background: #14437a;
+      transform: translateY(-2px);
+    }
+    .btn-approve:active {
+      transform: translateY(0);
+    }
+    .meta-table {
+      width: 100%;
+      margin: 20px 0;
+      border-collapse: collapse;
+    }
+    .meta-table td {
+      padding: 12px 0;
+      border-bottom: 1px solid #e3e8ef;
+    }
+    .meta-table td.label {
+      font-weight: 600;
+      color: var(--muted);
+      width: 40%;
+    }
+    .meta-table td.value {
+      font-weight: 700;
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <span class="psi-badge-small">S.A.M.A.V.E.S.H.</span>
+    <span class="top-title">Professor Portal</span>
+    <span class="project-badge">PROF. SUDIP DAS</span>
+  </div>
+
+  <div class="approval-container">
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-tag">P</div>
+        <h3>Print Authorization Request</h3>
+      </div>
+
+      {% if approved %}
+        <div class="status-badge status-approved">Approved</div>
+        <p>You have approved this request. Please share the following One-Time Password (OTP) with the student/user to authorize their print job:</p>
+        
+        <div class="otp-display">{{ req.otp }}</div>
+        
+        <p style="font-size: 0.85rem; color: var(--muted); text-align: center;">This OTP is valid for a single print transaction of Project ID: {{ req.project_id }}</p>
+      {% else %}
+        <div class="status-badge status-pending">Pending Approval</div>
+        <p>A user is requesting permission to download/print the complete economic simulation report. Please verify the project metadata below and authorize the request:</p>
+        
+        <table class="meta-table">
+          <tr>
+            <td class="label">Project ID</td>
+            <td class="value">{{ req.project_id }}</td>
+          </tr>
+          <tr>
+            <td class="label">Request Time</td>
+            <td class="value">{{ req.created_at }}</td>
+          </tr>
+          <tr>
+            <td class="label">Request ID</td>
+            <td class="value" style="font-family: var(--mono); font-size: 0.9rem;">{{ request_id }}</td>
+          </tr>
+        </table>
+
+        <form method="POST" style="margin-top: 30px;">
+          <button type="submit" class="btn-approve">Approve & Generate OTP</button>
+        </form>
+      {% endif %}
+    </div>
+
+    <div class="page-footer">
+      <small>&copy; 2026 The PSI Lab, IIT Kharagpur. All Rights Reserved.</small>
+    </div>
+  </div>
+</body>
+</html>
