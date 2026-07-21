@@ -3,32 +3,235 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S.A.M.A.V.E.S.H. | PSI Lab</title>
+  <title>S.A.M.A.V.E.S.H. — Techno-Economic & Environmental Analysis | PSI Lab</title>
+  <meta name="description" content="A techno-economic and environmental analysis platform for chemical process equipment, developed by The PSI Lab at IIT Kharagpur.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <div class="landing">
-    <div class="hero-samavesh">
-      <div class="hero-content">
-        <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="hero-logo">
-        <p class="hero-subtitle">Sustainability Assessment, Mass-Energy Valuation & Economic Simulation Hub</p>
-        <h1 class="hero-title">S.A.M.A.V.E.S.H.</h1>
-        <p class="hero-desc">
-          Techno-Economic & Environmental Analysis Platform<br>
-          for Chemical Process Equipment
-        </p>
-        <div class="hero-actions">
-          <a href="{{ url_for('plant_specs') }}" class="btn-start">Start Analysis &rarr;</a>
-          <a href="{{ url_for('team') }}" class="btn-secondary">Meet the Team</a>
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="{{ url_for('landing') }}" class="nav-brand">
+        <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
+        <div class="nav-brand-text">
+          <span class="nav-brand-name">PSI Lab</span>
+          <span class="nav-brand-sub">IIT Kharagpur</span>
         </div>
+      </a>
+      <nav class="nav-links">
+        <a href="{{ url_for('equipment') }}">Equipment</a>
+        <a href="{{ url_for('plant_specs') }}">Analysis</a>
+        <a href="{{ url_for('team') }}">Team</a>
+      </nav>
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        <span class="status-text">System Online</span>
       </div>
     </div>
-    <footer class="landing-footer">
-      <div class="footer-inner-col">
-        <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
-        <small class="footer-copy">&copy; 2026 The PSI Lab, IIT Kharagpur. All Rights Reserved.</small>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+      <div class="scan-line"></div>
+
+      <div class="hero-inner">
+        <div class="hero-main">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>v2.4 · Active Research Platform</span>
+          </div>
+
+          <h1 class="wordmark">SAMAVESH</h1>
+
+          <div class="acronym">
+            <span class="acronym-label">Acronym</span>
+            <p class="acronym-text">
+              <em>S</em>ustainability <em>A</em>ssessment,
+              <em>M</em>ass-energy <em>V</em>aluation &
+              <em>E</em>conomic <em>S</em>imulation <em>H</em>ub
+            </p>
+          </div>
+
+          <p class="hero-desc">
+            A techno-economic and environmental analysis platform for chemical
+            process equipment — built for engineers who need rigorous answers,
+            not estimates.
+          </p>
+
+          <div class="hero-actions">
+            <a href="{{ url_for('plant_specs') }}" class="btn btn-primary">
+              Start Analysis
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="{{ url_for('team') }}" class="btn btn-secondary">Meet the Team</a>
+          </div>
+        </div>
+
+        <aside class="hero-side">
+          <div class="panel">
+            <div class="panel-head">
+              <span class="panel-label">Live Telemetry</span>
+              <span class="status-dot"></span>
+            </div>
+            <ul class="readout">
+              <li><span>Pressure</span><span>1.72 MPa</span></li>
+              <li><span>Temperature</span><span>368.7 K</span></li>
+              <li><span>Flow</span><span>125.7 m³/h</span></li>
+              <li><span>Reflux</span><span>2.35</span></li>
+              <li><span>Duty</span><span>5.78 MW</span></li>
+            </ul>
+          </div>
+          <div class="panel panel-muted">
+            <span class="panel-label">Affiliation</span>
+            <p>Process Systems Integration Lab, Department of Chemical Engineering, IIT Kharagpur.</p>
+          </div>
+        </aside>
       </div>
-    </footer>
-  </div>
+    </section>
+
+    <!-- Marquee -->
+    <section class="marquee">
+      <div class="marquee-track">
+        <span>Distillation Columns</span><span class="dot"></span>
+        <span>Shell-&amp;-Tube HX</span><span class="dot"></span>
+        <span>CSTR Reactors</span><span class="dot"></span>
+        <span>Plate Heat Exchangers</span><span class="dot"></span>
+        <span>PFR Reactors</span><span class="dot"></span>
+        <span>Absorbers</span><span class="dot"></span>
+        <span>Compressors</span><span class="dot"></span>
+        <span>Pumps</span><span class="dot"></span>
+        <span>Evaporators</span><span class="dot"></span>
+        <span>Crystallizers</span><span class="dot"></span>
+        <!-- duplicate for seamless loop -->
+        <span>Distillation Columns</span><span class="dot"></span>
+        <span>Shell-&amp;-Tube HX</span><span class="dot"></span>
+        <span>CSTR Reactors</span><span class="dot"></span>
+        <span>Plate Heat Exchangers</span><span class="dot"></span>
+        <span>PFR Reactors</span><span class="dot"></span>
+        <span>Absorbers</span><span class="dot"></span>
+        <span>Compressors</span><span class="dot"></span>
+        <span>Pumps</span><span class="dot"></span>
+        <span>Evaporators</span><span class="dot"></span>
+        <span>Crystallizers</span><span class="dot"></span>
+      </div>
+    </section>
+
+    <!-- Capabilities -->
+    <section class="section" id="capabilities">
+      <div class="section-inner">
+        <header class="section-head">
+          <div>
+            <span class="kicker">§ 01 · Capabilities</span>
+            <h2>Three analysis cores. One unified flowsheet.</h2>
+          </div>
+          <span class="kicker mono-small">[Modules / 03]</span>
+        </header>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-idx">01 · Assessment</div>
+            <h3>Sustainability</h3>
+            <p>Life-cycle impact, carbon intensity, and ecological footprint calculations for individual unit operations and full process flowsheets.</p>
+            <span class="card-link">Inspect Module <i></i></span>
+          </article>
+          <article class="card">
+            <div class="card-idx">02 · Valuation</div>
+            <h3>Mass &amp; Energy</h3>
+            <p>First-principles balances with exergy tracking. Identify thermodynamic inefficiencies across reactors, columns, and heat exchangers.</p>
+            <span class="card-link">Inspect Module <i></i></span>
+          </article>
+          <article class="card">
+            <div class="card-idx">03 · Simulation</div>
+            <h3>Economics</h3>
+            <p>CAPEX and OPEX modeling tied to equipment sizing, with sensitivity sweeps for scale-up and feasibility analysis.</p>
+            <span class="card-link">Inspect Module <i></i></span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workflow -->
+    <section class="section section-alt" id="workflow">
+      <div class="section-grid-bg"></div>
+      <div class="section-inner">
+        <header class="section-head section-head-stacked">
+          <span class="kicker">§ 02 · Workflow</span>
+          <h2>From plant spec to validated report in three phases.</h2>
+        </header>
+
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-head"><span class="kicker">Phase 01</span><span class="phase-num">01</span></div>
+            <h3>Specify</h3>
+            <p>Define plant geometry, stream composition, operating envelope, and equipment constraints in the unified analyzer.</p>
+          </div>
+          <div class="phase">
+            <div class="phase-head"><span class="kicker">Phase 02</span><span class="phase-num">02</span></div>
+            <h3>Simulate</h3>
+            <p>The SAMAVESH kernel runs simultaneous mass, energy, and economic balances against validated thermodynamic packages.</p>
+          </div>
+          <div class="phase">
+            <div class="phase-head"><span class="kicker">Phase 03</span><span class="phase-num">03</span></div>
+            <h3>Validate</h3>
+            <p>Export structured reports — NPV curves, CO₂ footprints, sizing sheets — ready for feasibility review.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="cta-grid-bg"></div>
+      <div class="cta-glow"></div>
+      <div class="cta-inner">
+        <span class="kicker">§ 03 · Begin</span>
+        <h2>Ready to analyze your <em>process</em>?</h2>
+        <p>Initialize a new analysis with your plant specifications. Receive a full techno-economic and environmental scorecard.</p>
+        <a href="{{ url_for('plant_specs') }}" class="btn btn-primary btn-lg">
+          Initialize Analysis
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="nav-brand">
+          <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
+          <div class="nav-brand-text">
+            <span class="nav-brand-name">PSI Lab</span>
+            <span class="nav-brand-sub">IIT Kharagpur</span>
+          </div>
+        </div>
+        <p class="footer-about">Advanced computational tools for process systems engineering and sustainability analysis.</p>
+      </div>
+      <div class="footer-col">
+        <span class="kicker">Platform</span>
+        <ul>
+          <li><a href="{{ url_for('equipment') }}">Equipment</a></li>
+          <li><a href="{{ url_for('plant_specs') }}">Start Analysis</a></li>
+          <li><a href="{{ url_for('team') }}">Team</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <span class="kicker">Affiliation</span>
+        <p>Department of Chemical Engineering<br>IIT Kharagpur, 721302<br>West Bengal, India</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <small>&copy; 2026 The PSI Lab · All Rights Reserved</small>
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        <span class="status-text">All Systems Nominal</span>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
