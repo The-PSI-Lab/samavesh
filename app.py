@@ -521,7 +521,7 @@ S.A.M.A.V.E.S.H. Notification System"""
 
     email_entry = {
         "id": request_id,
-        "to": "prof.sudipdas@example.com",
+        "to": "sudip@che.iitkgp.ac.in",
         "subject": f"Print Permission Request - Project {project_id}",
         "body": email_body,
         "timestamp": datetime.now().strftime("%I:%M:%S %p"),
