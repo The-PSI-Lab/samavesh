@@ -18,14 +18,44 @@
       <div class="panel">
         <div class="panel-head"><span class="panel-tag">A</span><h3>Process Specs</h3></div>
         <div class="grid-3">
-          <div class="field"><label>Gas Flow Rate</label><div class="combo"><input type="number" step="any" name="gas_flow"><select name="gas_flow_unit"><option value="" disabled selected></option><option>m&sup3;/h</option><option>Nm&sup3;/h</option></select></div></div>
-          <div class="field"><label>Liquid Flow Rate</label><div class="combo"><input type="number" step="any" name="liquid_flow"><select name="liquid_flow_unit"><option value="" disabled selected></option><option>m&sup3;/h</option><option>L/min</option></select></div></div>
-          <div class="field"><label>Column ID</label><div class="combo"><input type="number" step="any" name="column_id"><select name="col_id_unit"><option value="" disabled selected></option><option>m</option><option>mm</option></select></div></div>
+          <div class="field"><label>Gas Flow Rate</label><div class="combo"><input type="number" step="any" name="gas_flow"><select name="gas_flow_unit">><option value="" disabled selected></option>
+<option value="m3/h">m&sup3;/h</option>
+<option value="Nm3/h">Nm&sup3;/h</option>
+<option value="ACFM">ft&sup3;/min (ACFM)</option></select></div></div>
+          <div class="field"><label>Liquid Flow Rate</label><div class="combo"><input type="number" step="any" name="liquid_flow"><select name="liquid_flow_unit">><option value="" disabled selected></option>
+<option value="m3/h">m&sup3;/h</option>
+<option value="L/min">L/min</option>
+<option value="L/s">L/s</option>
+<option value="gpm">gpm (gal/min)</option></select></div></div>
+          <div class="field"><label>Column ID</label><div class="combo"><input type="number" step="any" name="column_id"><select name="col_id_unit">><option value="" disabled selected></option>
+<option value="m">m</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="ft">ft</option></select></div></div>
         </div>
         <div class="grid-3">
-          <div class="field"><label>Packing Height</label><div class="combo"><input type="number" step="any" name="packing_height"><select name="pack_h_unit"><option value="" disabled selected></option><option>m</option><option>ft</option></select></div></div>
-          <div class="field"><label>Operating Press.</label><div class="combo"><input type="number" step="any" name="operating_press"><select name="press_unit"><option value="" disabled selected></option><option>barg</option><option>kPa</option></select></div></div>
-          <div class="field"><label>Operating Temp</label><div class="combo"><input type="number" step="any" name="operating_temp"><select name="temp_unit"><option value="" disabled selected></option><option>&deg;C</option><option>&deg;F</option></select></div></div>
+          <div class="field"><label>Packing Height</label><div class="combo"><input type="number" step="any" name="packing_height"><select name="pack_h_unit">><option value="" disabled selected></option>
+<option value="m">m</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="ft">ft</option></select></div></div>
+          <div class="field"><label>Operating Press.</label><div class="combo"><input type="number" step="any" name="operating_press"><select name="press_unit">><option value="" disabled selected></option>
+<option value="bar">bar</option>
+<option value="barg">barg</option>
+<option value="kPa">kPa</option>
+<option value="MPa">MPa</option>
+<option value="Pa">Pa</option>
+<option value="psi">psi</option>
+<option value="psia">psia</option>
+<option value="psig">psig</option>
+<option value="torr">torr</option>
+<option value="mmWG">mmWG</option></select></div></div>
+          <div class="field"><label>Operating Temp</label><div class="combo"><input type="number" step="any" name="operating_temp"><select name="temp_unit">><option value="" disabled selected></option>
+<option value="degC">&deg;C</option>
+<option value="degF">&deg;F</option>
+<option value="R">&deg;R</option></select></div></div>
         </div>
       </div>
       <div class="panel">
@@ -39,7 +69,14 @@
       <div class="panel">
         <div class="panel-head"><span class="panel-tag">$</span><h3>Economics</h3></div>
         <div class="grid-3">
-          <div class="field"><label>Utility Cost</label><div class="combo"><input type="number" step="any" name="utility_cost"><select name="utility_cost_unit"><option value="" disabled selected></option><option>$/kWh</option><option>$/MWh</option><option>$/GJ</option></select></div></div>
+          <div class="field"><label>Utility Cost</label><div class="combo"><input type="number" step="any" name="utility_cost"><select name="utility_cost_unit">><option value="" disabled selected></option>
+<option value="$/kWh">$/kWh</option>
+<option value="$/MWh">$/MWh</option>
+<option value="$/GJ">$/GJ</option>
+<option value="$/lb steam">$/lb steam</option>
+<option value="$/gal">$/gal</option>
+<option value="$/lb">$/lb</option>
+<option value="$/kg">$/kg</option></select></div></div>
           <div class="field"><label>Discount Rate (%)</label><input type="number" step="any" name="discount_rate"></div>
           <div class="field"><label>Plant Life (yr)</label><input type="number" step="1" name="plant_life"></div>
         </div>

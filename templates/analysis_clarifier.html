@@ -18,13 +18,27 @@
       <div class="panel">
         <div class="panel-head"><span class="panel-tag">A</span><h3>Process Specs</h3></div>
         <div class="grid-3">
-          <div class="field"><label>Tank Diameter</label><div class="combo"><input type="number" step="any" name="tank_dia"><select name="dia_unit"><option value="" disabled selected></option><option>m</option><option>ft</option></select></div></div>
-          <div class="field"><label>Feed Rate</label><div class="combo"><input type="number" step="any" name="feed_rate"><select name="feed_unit"><option value="" disabled selected></option><option>m&sup3;/h</option><option>L/min</option></select></div></div>
+          <div class="field"><label>Tank Diameter</label><div class="combo"><input type="number" step="any" name="tank_dia"><select name="dia_unit">><option value="" disabled selected></option>
+<option value="m">m</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="ft">ft</option></select></div></div>
+          <div class="field"><label>Feed Rate</label><div class="combo"><input type="number" step="any" name="feed_rate"><select name="feed_unit">><option value="" disabled selected></option>
+<option value="m3/h">m&sup3;/h</option>
+<option value="L/min">L/min</option>
+<option value="L/s">L/s</option>
+<option value="gpm">gpm (gal/min)</option></select></div></div>
           <div class="field"><label>Retention Time</label><div class="combo"><input type="number" step="any" name="retention_time"><select name="time_unit"><option value="" disabled selected></option><option>min</option><option>h</option></select></div></div>
         </div>
         <div class="grid-3">
           <div class="field"><label>Weir Loading</label><div class="combo"><input type="number" step="any" name="weir_loading"><select name="weir_unit"><option value="" disabled selected></option><option>m&sup3;/m/d</option><option>m&sup3;/m/h</option></select></div></div>
-          <div class="field"><label>Side Water Depth</label><div class="combo"><input type="number" step="any" name="swd"><select name="swd_unit"><option value="" disabled selected></option><option>m</option><option>ft</option></select></div></div>
+          <div class="field"><label>Side Water Depth</label><div class="combo"><input type="number" step="any" name="swd"><select name="swd_unit">><option value="" disabled selected></option>
+<option value="m">m</option>
+<option value="mm">mm</option>
+<option value="cm">cm</option>
+<option value="in">in</option>
+<option value="ft">ft</option></select></div></div>
         </div>
       </div>
       <div class="panel">
@@ -38,7 +52,14 @@
       <div class="panel">
         <div class="panel-head"><span class="panel-tag">$</span><h3>Economics</h3></div>
         <div class="grid-3">
-          <div class="field"><label>Utility Cost</label><div class="combo"><input type="number" step="any" name="utility_cost"><select name="utility_cost_unit"><option value="" disabled selected></option><option>$/kWh</option><option>$/MWh</option><option>$/GJ</option></select></div></div>
+          <div class="field"><label>Utility Cost</label><div class="combo"><input type="number" step="any" name="utility_cost"><select name="utility_cost_unit">><option value="" disabled selected></option>
+<option value="$/kWh">$/kWh</option>
+<option value="$/MWh">$/MWh</option>
+<option value="$/GJ">$/GJ</option>
+<option value="$/lb steam">$/lb steam</option>
+<option value="$/gal">$/gal</option>
+<option value="$/lb">$/lb</option>
+<option value="$/kg">$/kg</option></select></div></div>
           <div class="field"><label>Discount Rate (%)</label><input type="number" step="any" name="discount_rate"></div>
           <div class="field"><label>Plant Life (yr)</label><input type="number" step="1" name="plant_life"></div>
         </div>

@@ -22,10 +22,11 @@
             <label>Flow Rate</label>
             <div class="combo">
               <input type="number" step="any" name="flow_rate" required>
-              <select name="flow_rate_unit">
-                <option value="" disabled selected></option>
-                <option value="m3/h">m&sup3;/h</option><option value="L/s">L/s</option><option value="gpm">gpm</option>
-              </select>
+              <select name="flow_rate_unit">><option value="" disabled selected></option>
+<option value="m3/h">m&sup3;/h</option>
+<option value="L/min">L/min</option>
+<option value="L/s">L/s</option>
+<option value="gpm">gpm (gal/min)</option></select>
             </div>
           </div>
           <div class="field">
@@ -84,10 +85,10 @@
             <label>Operating Temp</label>
             <div class="combo">
               <input type="number" step="any" name="operating_temp">
-              <select name="temp_unit">
-                <option value="" disabled selected></option>
-                <option value="degC">&deg;C</option><option value="degF">&deg;F</option>
-              </select>
+              <select name="temp_unit">><option value="" disabled selected></option>
+<option value="degC">&deg;C</option>
+<option value="degF">&deg;F</option>
+<option value="R">&deg;R</option></select>
             </div>
           </div>
         </div>
@@ -99,12 +100,14 @@
             <label>Utility Cost</label>
             <div class="combo">
               <input type="number" step="any" name="utility_cost">
-              <select name="utility_cost_unit">
-                <option value="" disabled selected></option>
-                <option value="$/kWh">$/kWh</option>
-                <option value="$/MWh">$/MWh</option>
-                <option value="$/GJ">$/GJ</option>
-              </select>
+              <select name="utility_cost_unit">><option value="" disabled selected></option>
+<option value="$/kWh">$/kWh</option>
+<option value="$/MWh">$/MWh</option>
+<option value="$/GJ">$/GJ</option>
+<option value="$/lb steam">$/lb steam</option>
+<option value="$/gal">$/gal</option>
+<option value="$/lb">$/lb</option>
+<option value="$/kg">$/kg</option></select>
             </div>
           </div>
           <div class="field">

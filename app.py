@@ -258,9 +258,8 @@ def calculate_distillation():
 
 @app.route("/calculate-pump", methods=["POST"])
 def calculate_pump():
-    power_kw = _num("power")
-    if request.form.get("power_unit") == "hp":
-        power_kw *= 0.7457
+    power_w = units.to_watts(_num("power"), request.form.get("power_unit", "kW"))
+    power_kw = units.watts_to_kw(power_w)
     heat_duty_kw = power_kw
     purchase_cost = _num("purchase_cost", 25000)
     bare_module_factor = _num("bare_module_factor", 3.0)
@@ -291,9 +290,8 @@ def calculate_reactor():
 
 @app.route("/calculate-compressor", methods=["POST"])
 def calculate_compressor():
-    power_kw = _num("power")
-    if request.form.get("power_unit") == "hp":
-        power_kw *= 0.7457
+    power_w = units.to_watts(_num("power"), request.form.get("power_unit", "kW"))
+    power_kw = units.watts_to_kw(power_w)
     heat_duty_kw = power_kw
     purchase_cost = _num("purchase_cost", 80000)
     bare_module_factor = _num("bare_module_factor", 3.5)
@@ -354,9 +352,8 @@ def calculate_absorber():
 
 @app.route("/calculate-blower", methods=["POST"])
 def calculate_blower():
-    power_kw = _num("power")
-    if request.form.get("power_unit") == "hp":
-        power_kw *= 0.7457
+    power_w = units.to_watts(_num("power"), request.form.get("power_unit", "kW"))
+    power_kw = units.watts_to_kw(power_w)
     heat_duty_kw = power_kw
     purchase_cost = _num("purchase_cost", 35000)
     bare_module_factor = _num("bare_module_factor", 2.8)
@@ -367,9 +364,8 @@ def calculate_blower():
 
 @app.route("/calculate-fan", methods=["POST"])
 def calculate_fan():
-    power_kw = _num("power")
-    if request.form.get("power_unit") == "hp":
-        power_kw *= 0.7457
+    power_w = units.to_watts(_num("power"), request.form.get("power_unit", "kW"))
+    power_kw = units.watts_to_kw(power_w)
     heat_duty_kw = power_kw
     purchase_cost = _num("purchase_cost", 15000)
     bare_module_factor = _num("bare_module_factor", 2.5)
@@ -410,9 +406,8 @@ def calculate_filter():
 
 @app.route("/calculate-centrifuge", methods=["POST"])
 def calculate_centrifuge():
-    power_kw = _num("power")
-    if request.form.get("power_unit") == "hp":
-        power_kw *= 0.7457
+    power_w = units.to_watts(_num("power"), request.form.get("power_unit", "kW"))
+    power_kw = units.watts_to_kw(power_w)
     heat_duty_kw = power_kw
     purchase_cost = _num("purchase_cost", 60000)
     bare_module_factor = _num("bare_module_factor", 3.0)
@@ -423,9 +418,8 @@ def calculate_centrifuge():
 
 @app.route("/calculate-mill", methods=["POST"])
 def calculate_mill():
-    power_kw = _num("power")
-    if request.form.get("power_unit") == "hp":
-        power_kw *= 0.7457
+    power_w = units.to_watts(_num("power"), request.form.get("power_unit", "kW"))
+    power_kw = units.watts_to_kw(power_w)
     heat_duty_kw = power_kw
     purchase_cost = _num("purchase_cost", 75000)
     bare_module_factor = _num("bare_module_factor", 3.5)

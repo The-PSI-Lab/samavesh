@@ -2,11 +2,15 @@ POWER_TO_W = {
     "W": 1.0,
     "kW": 1.0e3,
     "MW": 1.0e6,
+    "hp": 745.699872,
+    "Btu/hr": 0.29307107,
 }
 
 AREA_TO_M2 = {
     "m2": 1.0,
+    "m²": 1.0,
     "ft2": 0.09290304,
+    "ft²": 0.09290304,
 }
 
 PRESSURE_TO_PA = {
@@ -14,7 +18,12 @@ PRESSURE_TO_PA = {
     "kPa": 1.0e3,
     "MPa": 1.0e6,
     "bar": 1.0e5,
+    "barg": 1.0e5,
     "psi": 6894.757293168,
+    "psia": 6894.757293168,
+    "psig": 6894.757293168,
+    "torr": 133.322368,
+    "mmWG": 9.80665,
 }
 
 LENGTH_TO_M = {
@@ -29,6 +38,11 @@ UTILITY_COST_TO_PER_KWH = {
     "$/kWh": 1.0,
     "$/MWh": 1.0 / 1000.0,
     "$/GJ": 0.0036,
+    "$/lb steam": 3.41,
+    "$/lb_steam": 3.41,
+    "$/gal": 6.0,
+    "$/lb": 1.5,
+    "$/kg": 3.3,
 }
 
 
@@ -54,11 +68,15 @@ def utility_cost_to_per_kwh(value, unit):
 
 def to_kelvin(value, unit):
     value = float(value)
-    if unit == "K":
+    # Normalize unit: remove degree symbol, spaces, entity codes
+    unit = unit.replace("&deg;", "").replace("°", "").strip()
+    if unit in ("K", "Kelvin"):
         return value
-    if unit == "degC":
+    if unit in ("R", "Rankine"):
+        return value * 5.0 / 9.0
+    if unit in ("C", "degC", "Celsius"):
         return value + 273.15
-    if unit == "degF":
+    if unit in ("F", "degF", "Fahrenheit"):
         return (value - 32.0) * 5.0 / 9.0 + 273.15
     raise ValueError(f"Unknown temperature unit: {unit}")
 
