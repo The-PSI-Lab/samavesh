@@ -8,7 +8,7 @@
 </head>
 <body>
   <nav class="top-bar">
-    <a href="{{ url_for('equipment') }}" class="back-link">← Back</a>
+    <a href="{{ url_for('equipment') }}" class="back-link">â† Back</a>
     <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
     <span class="top-title">Distillation Column Analysis</span>
   </nav>
@@ -130,6 +130,10 @@
               <option value="" disabled selected></option>
               <option>Sieve</option><option>Valve</option><option>Bubble Cap</option>
             </select>
+          </div>
+          <div class="field">
+            <label>Equipment Purchase Cost</label>
+            <input type="number" step="any" name="purchase_cost" required placeholder="e.g. 50000">
           </div>
           <div class="field">
             <label>Bare Module Factor (F<sub>BM</sub>)</label>

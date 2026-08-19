@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <title>Validation</title>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -194,8 +194,8 @@
 <!-- SIMULATED PROFESSOR MAILBOX -->
 <div id="simulated-mailbox-widget" class="collapsed">
   <div class="mailbox-header" onclick="toggleMailbox()">
-    <span>📬 Prof. Sudip Das' Mailbox <span id="unread-badge" class="indicator">1</span></span>
-    <span id="toggle-icon">▲</span>
+    <span>ðŸ“¬ Prof. Sudip Das' Mailbox <span id="unread-badge" class="indicator">1</span></span>
+    <span id="toggle-icon">â–²</span>
   </div>
   <div class="mailbox-body" id="mailbox-inbox">
     <div style="text-align: center; color: #777; margin-top: 40px; font-size: 0.85rem;">
@@ -401,7 +401,7 @@
     // Expand mailbox widget automatically to hint to the user where the email will land
     const widget = document.getElementById("simulated-mailbox-widget");
     widget.classList.remove("collapsed");
-    document.getElementById("toggle-icon").innerText = "▼";
+    document.getElementById("toggle-icon").innerText = "â–¼";
 
     // Start polling mock mailbox for local demo
     fetchMailbox();
@@ -526,9 +526,9 @@
     const icon = document.getElementById("toggle-icon");
     widget.classList.toggle("collapsed");
     if (widget.classList.contains("collapsed")) {
-      icon.innerText = "▲";
+      icon.innerText = "â–²";
     } else {
-      icon.innerText = "▼";
+      icon.innerText = "â–¼";
       document.getElementById("unread-badge").style.display = "none";
     }
   }
