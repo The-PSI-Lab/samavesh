@@ -816,9 +816,10 @@ main, .footer, .marquee, .section, .cta {
 .eq-card p { font-size: 0.78rem; color: var(--fg-muted); line-height: 1.4; }
 
 .analysis-form { padding: 28px 0 44px; margin-top: 40px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
-@media (max-width: 720px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 480px) { .grid-3 { grid-template-columns: 1fr; } }
+.grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; max-width: 720px; }
+@media (min-width: 900px) {
+  .analysis-form .grid-3 { grid-template-columns: 1fr 1fr; max-width: none; }
+}
 .field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px; }
 .panel {
   background: var(--surface);
@@ -834,8 +835,16 @@ main, .footer, .marquee, .section, .cta {
   width: 26px; height: 26px; border-radius: 6px;
   background: var(--amber); color: #1a1100; font-weight: 700; font-size: 0.75rem;
 }
-.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.field label { font-size: 0.75rem; font-weight: 500; color: var(--fg-muted); white-space: nowrap; letter-spacing: 0.02em; }
+.field { display: flex; flex-direction: row; align-items: center; gap: 12px; min-width: 0; }
+.field label { flex: 0 0 42%; max-width: 180px; font-size: 0.75rem; font-weight: 500; color: var(--fg-muted); white-space: normal; line-height: 1.3; letter-spacing: 0.02em; text-align: left; }
+.field > input,
+.field > select,
+.field > textarea,
+.field > .combo { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 480px) {
+  .field { flex-direction: column; align-items: stretch; gap: 6px; }
+  .field label { flex: none; max-width: none; }
+}
 .field input, .field select, .field textarea {
   font-family: var(--font-body); font-size: 0.9rem;
   padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius);

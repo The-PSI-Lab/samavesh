@@ -77,24 +77,37 @@
               <option>Carbon Steel</option><option>SS304</option><option>SS316</option>
             </select>
           </div>
+        </div>
+      </div>
+            <div class="panel">
+        <div class="panel-head"><span class="panel-tag">C</span><h3>CAPEX</h3></div>
+        <div class="grid-3">
           <div class="field">
-            <label>Equipment Purchase Cost</label>
+            <label>Equipment Purchase Cost ($)</label>
             <input type="number" step="any" name="purchase_cost" required placeholder="e.g. 50000">
           </div>
           <div class="field">
-            <label>Bare Module Factor (F<sub>BM</sub>)</label>
+            <label>Bare Module Factor, F<sub>BM</sub></label>
             <input type="number" step="any" name="bare_module_factor">
+          </div>
+          <div class="field">
+            <label>Contingency (% of CBM)</label>
+            <input type="number" step="any" name="contingency_pct">
+          </div>
+          <div class="field">
+            <label>Working Capital (% of FCI)</label>
+            <input type="number" step="any" name="working_capital_pct">
           </div>
         </div>
       </div>
       <div class="panel">
-        <div class="panel-head"><span class="panel-tag">$</span><h3>Economics</h3></div>
+        <div class="panel-head"><span class="panel-tag">O</span><h3>OPEX</h3></div>
         <div class="grid-3">
           <div class="field">
-            <label>Utility Cost</label>
+            <label>Utility Cost ($/kWh)</label>
             <div class="combo">
               <input type="number" step="any" name="utility_cost">
-              <select name="utility_cost_unit">><option value="" disabled selected></option>
+              <select name="utility_cost_unit"><option value="" disabled selected></option>
 <option value="$/kWh">$/kWh</option>
 <option value="$/MWh">$/MWh</option>
 <option value="$/GJ">$/GJ</option>
@@ -105,32 +118,25 @@
             </div>
           </div>
           <div class="field">
-            <label>Discount Rate (%)</label>
-            <input type="number" step="any" name="discount_rate">
-          </div>
-          <div class="field">
-            <label>Plant Life (yr)</label>
-            <input type="number" step="1" name="plant_life">
-          </div>
-        </div>
-        <div class="grid-3">
-          <div class="field">
-            <label>Operating Hours/yr</label>
+            <label>Operating Hours (h/yr)</label>
             <input type="number" step="any" name="operating_hours">
           </div>
           <div class="field">
             <label>Maintenance (% of TCI)</label>
             <input type="number" step="any" name="maintenance_pct">
           </div>
-          <div class="field">
-            <label>Contingency (% of CBM)</label>
-            <input type="number" step="any" name="contingency_pct">
-          </div>
         </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span class="panel-tag">F</span><h3>Financial Analysis</h3></div>
         <div class="grid-3">
           <div class="field">
-            <label>Working Capital (% of FCI)</label>
-            <input type="number" step="any" name="working_capital_pct">
+            <label>Discount Rate (%)</label>
+            <input type="number" step="any" name="discount_rate">
+          </div>
+          <div class="field">
+            <label>Plant Life (years)</label>
+            <input type="number" step="1" name="plant_life">
           </div>
           <div class="field">
             <label>Currency</label>
