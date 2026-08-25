@@ -52,6 +52,50 @@
 <option value="ton/day">ton/day</option></select>
             </div>
           </div>
+          <div class="field">
+            <label>Feed Temperature</label>
+            <div class="combo">
+              <input type="number" step="any" name="feed_temp">
+              <select name="feed_temp_unit">
+                <option value="" disabled selected></option>
+                <option value="degC">&deg;C</option>
+                <option value="degF">&deg;F</option>
+                <option value="K">K</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Reflux Ratio</label>
+            <input type="number" step="any" name="reflux_ratio" placeholder="L/D">
+          </div>
+          <div class="field">
+            <label>Distillate Flow Rate</label>
+            <div class="combo">
+              <input type="number" step="any" name="distillate_flow">
+              <select name="distillate_flow_unit">
+                <option value="" disabled selected></option>
+                <option value="kg/h">kg/h</option>
+                <option value="tonne/h">tonne/h</option>
+                <option value="lb/hr">lb/hr</option>
+                <option value="lb/day">lb/day</option>
+                <option value="ton/day">ton/day</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Bottoms Flow Rate</label>
+            <div class="combo">
+              <input type="number" step="any" name="bottoms_flow">
+              <select name="bottoms_flow_unit">
+                <option value="" disabled selected></option>
+                <option value="kg/h">kg/h</option>
+                <option value="tonne/h">tonne/h</option>
+                <option value="lb/hr">lb/hr</option>
+                <option value="lb/day">lb/day</option>
+                <option value="ton/day">ton/day</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 
