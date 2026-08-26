@@ -828,7 +828,7 @@ main, .footer, .marquee, .section, .cta {
   padding: 24px;
   margin-bottom: 20px;
 }
-.panel-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.panel-head { display: flex; align-items: center; justify-content: flex-start; gap: 12px; margin-bottom: 18px; text-align: left; }
 .panel-head h3 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--fg); }
 .panel-tag {
   display: grid; place-items: center;
