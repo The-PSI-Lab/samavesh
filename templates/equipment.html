@@ -8,9 +8,7 @@
 </head>
 <body>
   <nav class="top-bar">
-    <a href="{{ url_for('material_balance') }}" class="back-link">← Material Balance</a>
-    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="nav-logo">
-    <span class="top-title">S.A.M.A.V.E.S.H.</span>
+    <a href="{{ url_for('material_balance') }}" class="back-link">← Material Balance</a>    <span class="top-title">S.A.M.A.V.E.S.H.</span>
     {% if project_id %}
     <span class="project-badge">{{ project_id }}</span>
     {% endif %}
@@ -229,9 +227,7 @@
     </div>
   </main>
 
-  <footer class="page-footer">
-    <img src="{{ url_for('static', filename='images/psi-lab-logo.png') }}" alt="PSI Lab" class="footer-logo">
-    <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
+  <footer class="page-footer">    <small>&copy; 2026 The PSI Lab, IIT Kharagpur</small>
   </footer>
 </body>
 </html>
