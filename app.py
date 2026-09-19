@@ -302,12 +302,31 @@ def calculate_compressor():
 
 @app.route("/calculate-valve", methods=["POST"])
 def calculate_valve():
-    heat_duty_kw = 0
+    # Calculate valve OPEX based on flow rate, pressure drop, and pump efficiency
+    flow_rate = _num("flow_rate", 0)
+    flow_rate_unit = request.form.get("flow_rate_unit", "m3/h")
+    pressure_drop = _num("pressure_drop", 0)
+    pressure_drop_unit = request.form.get("pressure_drop_unit", "bar")
+    pump_efficiency = _pct("pump_efficiency", 75.0)  # Default 75% efficiency
+    
+    # Convert to SI units
+    flow_rate_m3_s = units.flow_rate_to_m3_s(flow_rate, flow_rate_unit) if flow_rate else 0
+    pressure_drop_pa = units.to_pascal(pressure_drop, pressure_drop_unit) if pressure_drop else 0
+    
+    # Calculate pump power required (P = Q * ΔP / η)
+    # Power in Watts = flow_rate (m³/s) * pressure_drop (Pa) / efficiency
+    pump_power_w = 0
+    if flow_rate_m3_s > 0 and pressure_drop_pa > 0 and pump_efficiency > 0:
+        pump_power_w = (flow_rate_m3_s * pressure_drop_pa) / pump_efficiency
+    
+    # Convert to kW
+    heat_duty_kw = units.watts_to_kw(pump_power_w)
+    
     purchase_cost = _num("purchase_cost", 5000)
     bare_module_factor = _num("bare_module_factor", 2.5)
     currency = request.form.get("currency", "USD")
     symbol = CURRENCY_SYMBOLS.get(currency, "$")
-    return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Valve", request.form.get("valve_material", "Carbon Steel"), "N/A", {"heat_duty_kw": 0, "area_m2": 0, "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": 0, "temp_k": 0})
+    return _run_tea(heat_duty_kw, purchase_cost, bare_module_factor, _pct("contingency_pct", 18.0), _pct("working_capital_pct", 15.0), _pct("maintenance_pct", 5.0), _int("plant_life", 15), _pct("discount_rate", 10.0), _num("operating_hours", 8000.0), units.utility_cost_to_per_kwh(_num("utility_cost"), request.form.get("utility_cost_unit", "$/kWh")), currency, symbol, "Valve", request.form.get("valve_material", "Carbon Steel"), "N/A", {"heat_duty_kw": heat_duty_kw, "area_m2": 0, "shell_id_m": 0, "tube_length_m": 0, "tube_od_m": 0, "num_tubes": 0, "pressure_pa": pressure_drop_pa, "temp_k": 0})
 
 
 @app.route("/calculate-kod", methods=["POST"])

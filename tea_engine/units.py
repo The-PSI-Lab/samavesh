@@ -45,6 +45,14 @@ UTILITY_COST_TO_PER_KWH = {
     "$/kg": 3.3,
 }
 
+FLOW_RATE_TO_M3_S = {
+    "m3/h": 1.0 / 3600.0,
+    "L/min": 1.0 / 60000.0,
+    "gal/min": 0.00378541 / 60.0,
+    "kg/h": 1.0 / 3600.0,
+    "lb/h": 0.453592 / 3600.0,
+}
+
 
 def to_watts(value, unit):
     return float(value) * POWER_TO_W[unit]
@@ -64,6 +72,10 @@ def to_metres(value, unit):
 
 def utility_cost_to_per_kwh(value, unit):
     return float(value) * UTILITY_COST_TO_PER_KWH[unit]
+
+
+def flow_rate_to_m3_s(value, unit):
+    return float(value) * FLOW_RATE_TO_M3_S[unit]
 
 
 def to_kelvin(value, unit):

@@ -55,6 +55,30 @@
 <option value="R">&deg;R</option></select>
             </div>
           </div>
+          <div class="field">
+            <label>Flow Rate</label>
+            <div class="combo">
+              <input type="number" step="any" name="flow_rate">
+              <select name="flow_rate_unit"><option value="" disabled selected></option>
+<option value="m3/h">m³/h</option>
+<option value="L/min">L/min</option>
+<option value="gal/min">gal/min</option>
+<option value="kg/h">kg/h</option>
+<option value="lb/h">lb/h</option></select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Pressure Drop Across Valve (ΔP)</label>
+            <div class="combo">
+              <input type="number" step="any" name="pressure_drop">
+              <select name="pressure_drop_unit"><option value="" disabled selected></option>
+<option value="bar">bar</option>
+<option value="kPa">kPa</option>
+<option value="MPa">MPa</option>
+<option value="psi">psi</option>
+<option value="Pa">Pa</option></select>
+            </div>
+          </div>
         </div>
       </div>
       <div class="panel">
@@ -118,6 +142,10 @@
           <div class="field">
             <label>Operating Hours (h/yr)</label>
             <input type="number" step="any" name="operating_hours">
+          </div>
+          <div class="field">
+            <label>Pump Efficiency (%)</label>
+            <input type="number" step="any" name="pump_efficiency">
           </div>
           <div class="field">
             <label>Maintenance (% of TCI)</label>
